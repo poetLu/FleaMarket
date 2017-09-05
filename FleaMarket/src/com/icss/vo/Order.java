@@ -10,6 +10,12 @@ public class Order {
 		return orderId;
 	}
 
+	public Order(int orderId, Date orderDate) {
+		super();
+		this.orderId = orderId;
+		this.orderDate = orderDate;
+	}
+
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}

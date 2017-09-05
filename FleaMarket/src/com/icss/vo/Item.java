@@ -13,6 +13,20 @@ public class Item {
 	private Date itemDate;
 	private byte purchaseOrNot;
 
+	public Item(int itemId, int orderId, int goodsId, int price, int amount, String buyerId, String dealerId,
+			Date itemDate, byte purchaseOrNot) {
+		super();
+		this.itemId = itemId;
+		this.orderId = orderId;
+		this.goodsId = goodsId;
+		this.price = price;
+		this.amount = amount;
+		this.buyerId = buyerId;
+		this.dealerId = dealerId;
+		this.itemDate = itemDate;
+		this.purchaseOrNot = purchaseOrNot;
+	}
+
 	public int getItemId() {
 		return itemId;
 	}

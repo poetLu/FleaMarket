@@ -3,7 +3,7 @@
 
 	<head lang="en">
 		<meta charset="UTF-8">
-		<title>注册</title>
+		<title>详细信息</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta name="format-detection" content="telephone=no">
@@ -30,49 +30,54 @@
 					<div class="am-tabs" id="doc-my-tabs">
 						<ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
 							<li class="am-active"><a href="">用户注册</a></li>
-							<!-- <li><a href="">手机号注册</a></li> -->
 						</ul>
 						<div class="am-tabs-bd">
 							<div class="am-tab-panel am-active">
 								<form method="post">		
-								   	<div class="user-email">
-										<label for="email"><i class="am-icon-envelope-o"></i></label>
-										<input type="email" name="" id="email" placeholder="请输入用户名">
+								   	<div class="user-pass">
+										<label >ID</label>
+										<input name="" id="id" placeholder="请输入ID(不可更改)">
 	                 				</div>										
 		                			<div class="user-pass">
-										<label for="password"><i class="am-icon-lock"></i></label>
-										<input type="password" name="" id="password" placeholder="请设置密码,含字母和数字">
+										<label >姓名</label>
+										<input name="" id="name" placeholder="请输入姓名">
 		                 			</div>										
 		                 			<div class="user-pass">
-										<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-										<input type="password" name="" id="passwordRepeat" placeholder="请确认密码">
+										&nbsp;性别&nbsp;
+										<select id="sex" style="height: 40px;margin-left: 3px">
+											<option>请选择</option>
+											<option>男</option>
+											<option>女</option>
+										</select>
+		                 			</div>
+		                 			<div class="user-pass">
+										<label >生日</i></label>
+										<input name="" id="birthday" placeholder="YYYY-MM-DD">
+		                 			</div>
+		                 			<div class="user-pass">
+										<label >电话</i></label>
+										<input name="" id="tel" placeholder="请确认性别">
+		                 			</div>
+		                 			<div class="user-pass">
+										<label >邮箱</i></label>
+										<input name="" id="email" placeholder="请确认邮箱地址">
 		                 			</div>	
                  				</form>
 								<div class="am-cf">
-									<input type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="register()">
+									<input type="submit" name="" value="提交" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="submit()">
 								</div>
 							</div>
 
 							<script>
-								function register(){
-									var username=document.getElementById("email").value;
-									var password=document.getElementById("password").value;
-									var passwordRepeat=document.getElementById("passwordRepeat").value;
-									if(!username){
-										alert('请填写用户名');
-									}else if(!password){
-										alert("请填写密码");
-									}else if(!passwordRepeat){
-										alert("请填写确认密码");
-									}else if(password!=passwordRepeat){
-										alert("两次密码需要一致");
-									}else{
-										window.open('http://localhost:8080/FleaMarket/register?username='+username+'&'+'password='+password,'_self');
-									}
+								function submit(){
+									var id=document.getElementById("id").value;
+									var name=document.getElementById("name").value;
+									var sex=document.getElementById("sex").value;
+									var birthday=document.getElementById("birthday").value;
+									var telephone=document.getElementById("tel").value;
+									var email=document.getElementById("email").value;
+									window.open('http://localhost:8080/FleaMarket/information?id='+id+'&name='+name+'&sex='+sex+'&birthday='+birthday+'&telephone='+'&email='+email,'_self');
 								}
-								$(function() {
-									$('#doc-my-tabs').tabs();
-								})
 							</script>
 						</div>
 					</div>

@@ -1,5 +1,10 @@
 package com.icss.service;
 
-public class ManagerService {
+import com.icss.dao.ManagerDao;
 
+public class ManagerService {
+	ManagerDao managerDao=new ManagerDao();
+	public boolean isManager(String username,String password){
+		return true;
+	}
 }
