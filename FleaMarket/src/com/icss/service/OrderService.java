@@ -1,5 +1,7 @@
 package com.icss.service;
 
-public class OrderService {
+import com.icss.dao.OrderDao;
 
+public class OrderService {
+	OrderDao orderDao=new OrderDao();
 }

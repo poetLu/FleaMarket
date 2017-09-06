@@ -1,5 +1,7 @@
 package com.icss.service;
 
-public class ItemService {
+import com.icss.dao.ItemDao;
 
+public class ItemService {
+	ItemDao itemDao=new ItemDao();
 }

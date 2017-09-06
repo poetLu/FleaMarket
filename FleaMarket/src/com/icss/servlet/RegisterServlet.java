@@ -1,6 +1,7 @@
 package com.icss.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -8,8 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.icss.service.UserService;
+import com.sun.xml.internal.ws.util.xml.ContentHandlerToXMLStreamWriter;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -25,18 +28,23 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ServletContext context = getServletContext();
+		HttpSession session=request.getSession();
 		// 得到浏览器的请求参数
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		// 判断账号是否存在
-		if (userService.isOldUser(username)) {
-			response.sendRedirect("/home/register.html");
-			response.getWriter().append("账号已存在");
-		} else {
-			context.setAttribute("username", username);
-			context.setAttribute("password", password);
-			response.sendRedirect("/FleaMarket/home/information.html");
+		try {
+			if (!userService.canRegister(username)) {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().append("该账号已被使用");
+			} else {
+				session.setAttribute("username", username);
+				session.setAttribute("password", password);
+				response.getWriter().print("information.html");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

@@ -1,55 +1,99 @@
 <!DOCTYPE html>
 <html>
 
-	<head lang="en">
-		<meta charset="UTF-8">
-		<title>登录</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta name="format-detection" content="telephone=no">
-		<meta name="renderer" content="webkit">
-		<meta http-equiv="Cache-Control" content="no-siteapp" />
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
 
-		<link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.css" />
-		<link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
-	</head>
+	<link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.css" />
+	<link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
 
-	<body>
+	<script type="text/javascript">
+		function beforeLogin(){
+			var radios=document.getElementsByName("identify");
+			var identify;
+			for(var i=0;i<radios.length;i++){
+				if(radios[i].checked){
+					identify=radios[i].value;
+					break;
+				}
+			}
+			var username=document.getElementById("username").value;
+			var password=document.getElementById("password").value;
+			if(!username){
+				alert("请填写用户名");
+			}else if(!password){
+				alert("请填写密码");
+			}else if(!identify){
+				alert("请选择身份");
+			}else{
+				login(username,password,identify);
+			}
+		}
+		function login(username,password,identify){
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if (xhr.readyState==4){
+					if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
+						if(xhr.responseText=="此账号不存在")
+							document.getElementById("results").innerHTML=xhr.responseText;
+						else if(xhr.responseText=="密码错误，请重新输入")
+							document.getElementById("results").innerHTML=xhr.responseText;
+						else
+							window.open(xhr.responseText,'_self');
+					} else {
+						alert("Request was unsuccessful:"+xhr.status);
+					}
+				}
+			}
+			xhr.open("get","http://localhost:8080/FleaMarket/login?username="+username+"&password="+password+"&identify="+identify,true);
+			xhr.send(null);
+		}
+	</script>
+</head>
 
-		<div class="login-boxtitle">
-			<a href="home.html"><img alt="logo" src="../images/logobig.png" /></a>
-		</div>
+<body>
 
-		<div class="login-banner">
-			<div class="login-main">
-				<div class="login-banner-bg"><span></span><img src="../images/登录.jpg" /></div>
-				<div class="login-box">
-					<h3 class="title">登录商城</h3>
-					<div class="clear"></div>	
-						<div class="login-form">
-						  	<form>
-							   	<div class="user-name">
-								    <label for="user"><i class="am-icon-user"></i></label>
-								    <input type="text" name="" id="user" placeholder="邮箱/手机/用户名">
-                 			   	</div>
-                 				<div class="user-pass">
-								    <label for="password"><i class="am-icon-lock"></i></label>
-								    <input type="password" name="" id="password" placeholder="请输入密码">
-                 				</div>
-              				</form>
-           				</div>
-            
-           			<div class="login-links">
-                		<label><input name="identify" type="radio">用户</label>&nbsp;&nbsp;&nbsp;
-                		<label><input name="identify" type="radio">管理员</label>
-						<a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
-						<br/>
-            		</div>
-					<div class="am-cf">
-						<button type="submit" class="am-btn am-btn-primary am-btn-sm" style="height: 40px;padding-top: 5px" onclick="identityCheck()"><font size="3" >登录</font></button>
-					</div>
+	<div class="login-boxtitle">
+		<a href="home.html"><img alt="logo" src="../images/logobig.png" /></a>
+	</div>
+
+	<div class="login-banner">
+		<div class="login-main">
+			<div class="login-banner-bg"><span></span><img src="../images/登录.jpg" /></div>
+			<div class="login-box">
+				<h3 class="title">登录商城</h3>
+				<div class="clear"></div>	
+				<div class="login-form">
+					<form>
+						<div class="user-name">
+							<label for="user"><i class="am-icon-user"></i></label>
+							<input type="text" name="" id="username" placeholder="请输入用户名">
+						</div>
+						<div class="user-pass">
+							<label for="password"><i class="am-icon-lock"></i></label>
+							<input type="password" name="" id="password" placeholder="请输入密码">
+						</div>
+					</form>
 				</div>
+
+				<div class="login-links">
+					<label><input name="identify" type="radio" value="用户">用户</label>&nbsp;&nbsp;&nbsp;
+					<label><input name="identify" type="radio" value="管理员">管理员</label>
+					<a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
+					<br/>
+				</div>
+				<div class="am-cf">
+					<button type="submit" class="am-btn am-btn-primary am-btn-sm" style="height: 40px;padding-top: 5px" onclick="beforeLogin()"><font size="3" >登录</font></button>
+				</div>
+				<div align="center" id="results"></div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>

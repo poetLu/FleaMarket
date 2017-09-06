@@ -1,5 +1,7 @@
 package com.icss.service;
 
-public class GoodsService {
+import com.icss.dao.GoodsDao;
 
+public class GoodsService {
+	GoodsDao goodsDao=new GoodsDao();
 }

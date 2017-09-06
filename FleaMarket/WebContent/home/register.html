@@ -41,7 +41,7 @@
 	                 				</div>										
 		                			<div class="user-pass">
 										<label for="password"><i class="am-icon-lock"></i></label>
-										<input type="password" name="" id="password" placeholder="请设置密码,含字母和数字">
+										<input type="password" name="" id="password" placeholder="请设置密码">
 		                 			</div>										
 		                 			<div class="user-pass">
 										<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
@@ -51,6 +51,7 @@
 								<div class="am-cf">
 									<input type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="register()">
 								</div>
+								<div align="center" id="results"></div>
 							</div>
 
 							<script>
@@ -67,12 +68,23 @@
 									}else if(password!=passwordRepeat){
 										alert("两次密码需要一致");
 									}else{
-										window.open('http://localhost:8080/FleaMarket/register?username='+username+'&'+'password='+password,'_self');
+										var xhr=new XMLHttpRequest();
+										xhr.onreadystatechange=function(){
+									    	if (xhr.readyState==4){
+									       		if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
+									       			if(xhr.responseText=="该账号已被使用")
+									                	document.getElementById("results").innerHTML=xhr.responseText;
+									                else
+									                	window.open(xhr.responseText,'_self');
+									       	 	} else {
+									                 alert("Request was unsuccessful:"+xhr.status);
+									       	 	}
+									    	}
+										}
+										xhr.open("get","http://localhost:8080/FleaMarket/register?username="+username+"&password="+password,true);
+										xhr.send(null);
 									}
 								}
-								$(function() {
-									$('#doc-my-tabs').tabs();
-								})
 							</script>
 						</div>
 					</div>

@@ -1,5 +1,7 @@
 package com.icss.service;
 
-public class MessageService {
+import com.icss.dao.MessageDao;
 
+public class MessageService {
+	MessageDao messageDao=new MessageDao();
 }

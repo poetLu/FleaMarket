@@ -1,3 +1,6 @@
+<%@page import="javax.websocket.Session"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -20,20 +23,30 @@
 </head>
 
 <body>
+	<%! String userId; %>
 	<div class="hmtop">
 		<!--顶部导航条 -->
 		<div class="am-container header">
 			<ul class="message-l">
 				<div class="topMessage">
 					<div class="menu-hd">
+						<%
+							userId=(String)session.getAttribute("userId");
+							if(userId==null){
+						%>
 						<a href="login.html" target="_top" class="h">亲，请登录</a>&nbsp;&nbsp;&nbsp;
 						<a href="register.html" target="_top">免费注册</a>
+						<%
+							}else{
+						%>
+						<a href="../person/index.html"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>
+						<% } %>
 					</div>
 				</div>
 			</ul>
 			<ul class="message-r">
 				<div class="topMessage home">
-					<div class="menu-hd"><a href="home.html" target="_top" class="h">商城首页</a></div>
+					<div class="menu-hd"><a href="home.jsp" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
 					<div class="menu-hd MyShangcheng"><a href="../person/index.html" target="_blank"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
