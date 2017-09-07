@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@page import="com.sun.xml.internal.ws.api.Cancelable"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.List,com.icss.dao.UserDao,com.icss.vo.Order"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,6 +19,25 @@
 <link href="../css/systyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<%!
+		private String getWeekOfDate(Calendar calendar) {
+			String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", };
+			int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+			if (w < 0)
+				w = 0;
+			return weekDays[w];
+		}
+	%>
+	<%
+		String userId = (String) session.getAttribute("userId");
+		UserDao userDao = new UserDao();
+		int points = userDao.getPoints(userId);
+		List<Order> tradedOrder = userDao.getTradeOrder(userId);
+		List<Order> untradedOrder = userDao.getUntradeOrder(userId);
+		Date date = new Date();
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+	%>
 	<!--头 -->
 	<header> <article>
 	<div class="mt-logo">
@@ -28,13 +51,13 @@
 				</div>
 				<div class="topMessage my-shangcheng">
 					<div class="menu-hd MyShangcheng">
-						<a href="index.html" target="_top"><i
+						<a href="index.jsp" target="_top"><i
 							class="am-icon-user am-icon-fw"></i>个人中心</a>
 					</div>
 				</div>
 				<div class="topMessage mini-cart">
 					<div class="menu-hd">
-						<a id="mc-menu-hd" href="shopcart.html" target="_top"><i
+						<a id="mc-menu-hd" href="shopcart.jsp" target="_top"><i
 							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
 							id="J_MiniCartNum" class="h">0</strong></a>
 					</div>
@@ -78,21 +101,21 @@
 								<div class="m-baseinfo">
 									<a href="information.html"> <img
 										src="../images/getAvatar.do.jpg">
-									</a> <em class="s-name">(小叮当)<span class="vip1"></em>
+									</a> <em class="s-name"><%=userId%></em>
 								</div>
 								<div class="m-right">
 									<div class="m-new">
-										<a href="news.html"><i class="am-icon-bell-o"></i>消息</a>
+										<a href="news.jsp"><i class="am-icon-bell-o"></i>消息</a>
 									</div>
 									<div class="m-address">
-										<a href="address.html" class="i-trigger">我的收货地址</a>
+										<a href="address.jsp" class="i-trigger">我的收货地址</a>
 									</div>
 								</div>
 							</div>
 							<!--个人资产-->
 							<div class="m-userproperty">
 								<div class="s-bar">
-									<i class="s-icon"></i>个人积分
+									<i class="s-icon"></i>个人积分&nbsp;&nbsp;<font color="red"><%=points%></font>
 								</div>
 							</div>
 						</div>
@@ -105,10 +128,10 @@
 							</div>
 							<ul>
 								<li><a href="order.html"><i><img
-											src="../images/pay.png" /></i><span>待付款</span></a></li>
+											src="../images/pay.png" /></i><span>已付款<em class="m-num"><%=tradedOrder.size()%></em></span></a></li>
 								<li><a href="order.html"><i><img
-											src="../images/comment.png" /></i><span>待评价<em
-											class="m-num">3</em></span></a></li>
+											src="../images/comment.png" /></i><span>待付款<em
+											class="m-num"><%=untradedOrder.size()%></em></span></a></li>
 							</ul>
 						</div>
 						<!--收藏夹 -->
@@ -222,7 +245,9 @@
 						</div>
 						<div class="s-care s-care-noweather">
 							<div class="s-date">
-								<em>31</em> <span>星期四</span> <span>2017.8</span>
+								<em><%=calendar.get(Calendar.DAY_OF_MONTH)%></em> 
+								<span><%=getWeekOfDate(calendar)%></span>
+								<span><%=calendar.get(Calendar.YEAR)%>.<%=calendar.get(Calendar.MONTH)+1%></span>
 							</div>
 						</div>
 					</div>
@@ -259,22 +284,22 @@
 		</div>
 		<aside class="menu">
 		<ul>
-			<li class="person active"><a href="index.html">个人中心</a></li>
+			<li class="person active"><a href="index.jsp">个人中心</a></li>
 			<li class="person"><font size="3">个人资料</font>
 				<ul>
-					<li><a href="information.html">个人信息</a></li>
-					<li><a href="password.html">密码修改</a></li>
-					<li><a href="address.html">收货地址</a></li>
+					<li><a href="information.jsp">个人信息</a></li>
+					<li><a href="password.jsp">密码修改</a></li>
+					<li><a href="address.jsp">收货地址</a></li>
 				</ul></li>
 			<li class="person"><font size="3">我的交易</font>
 				<ul>
-					<li><a href="order.html">订单管理</a></li>
-					<li><a href="sale.html">我的出售</a></li>
+					<li><a href="order.jsp">订单管理</a></li>
+					<li><a href="sale.jsp">我的出售</a></li>
 				</ul></li>
 
 			<li class="person"><font size="3">我的小窝</font>
 				<ul>
-					<li><a href="news.html">消息</a></li>
+					<li><a href="news.jsp">消息</a></li>
 				</ul></li>
 		</ul>
 		</aside>

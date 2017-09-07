@@ -26,10 +26,10 @@
 					<div class="am-container header">
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="../home/home.html" target="_blank" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/FleaMarket/home" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
 								<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -97,12 +97,10 @@
 						<!--个人信息 -->
 						<div class="info-main">
 							<form class="am-form am-form-horizontal">
-
 								<div class="am-form-group">
 									<label for="user-name" class="am-form-label">姓名</label>
 									<div class="am-form-content">
-										<input type="text" id="user-name2" >
-
+										<input type="text" id="user-name2" placeholder="卢三">
 									</div>
 								</div>
 
@@ -110,10 +108,10 @@
 									<label class="am-form-label">性别</label>
 									<div class="am-form-content sex">
 										<label class="am-radio-inline">
-											<input type="radio" name="radio10" value="male" data-am-ucheck> 男
+											<input type="radio" name="radio10" value="male" data-am-ucheck > 男
 										</label>
 										<label class="am-radio-inline">
-											<input type="radio" name="radio10" value="female" data-am-ucheck> 女
+											<input type="radio" name="radio10" value="female" data-am-ucheck checked="true"> 女
 										</label>
 									</div>
 								</div>
@@ -122,24 +120,16 @@
 									<label for="user-birth" class="am-form-label">生日</label>
 									<div class="am-form-content birth">
 										<div class="birth-select">
-											<select data-am-selected>
-												<option value="a">2017</option>
-												<option value="b">1987</option>
-											</select>
-											<em>年</em>
+											<input type="" name="" size="10" id="year">
+											<label>年</label>
+										</div>
+										<div class="birth-select2" style="margin-left: -15px">
+											<input type="" name="" size="10" id="month">
+											<label>月</label>
 										</div>
 										<div class="birth-select2">
-											<select data-am-selected>
-												<option value="a">8</option>
-												<option value="b">9</option>
-											</select>
-											<em>月</em></div>
-										<div class="birth-select2">
-											<select data-am-selected>
-												<option value="a">31</option>
-												<option value="b">30</option>
-											</select>
-											<em>日</em></div>
+											<input type="" name="" size="10" id="day">
+											<label>日</label></div>
 									</div>
 							
 								</div>
@@ -151,7 +141,8 @@
 									</div>
 								</div>
 								<div class="info-btn">
-									<div class="am-btn am-btn-danger">保存修改</div>
+									<div class="am-btn am-btn-danger" onclick="modify()">保存修改</div>
+									<div id="results"></div>
 								</div>
 
 							</form>
@@ -160,6 +151,41 @@
 					</div>
 
 				</div>
+
+				<script type="text/javascript">
+					function modify(){
+						var name=document.getElementById("user-name2").value;
+						var sexs=document.getElementsByName("radio10");
+						var sex;
+						for(var i=0;i<sexs.length;i++){
+							if(sexs[i].checked){
+								sex=sexs[i].value;
+								break;
+							}
+						}
+						var year=document.getElementById("year").value;
+						var month=document.getElementById("month").value;
+						var day=document.getElementById("day").value;
+						var telephone=document.getElementById("user-phone").value;
+						if(!name){
+							name=document.getElementById("user-name2").placeholder;
+						}
+						if(!year){
+							year=document.getElementById("year").placeholder;
+						}
+						if(!month){
+							month=document.getElementById("month").placeholder;
+						}
+						if(!day){
+							day=document.getElementById("day").placeholder;
+						}
+						if(!telephone){
+							telephone=document.getElementById("user-phone").placeholder;
+						}
+						alert(year);
+					}
+				</script>
+
 				<!--底部-->
 				<div class="footer">
 					<div class="footer-hd">
@@ -188,28 +214,28 @@
 			<aside class="menu">
 				<ul>
 					<li class="person active">
-						<a href="index.html">个人中心</a>
+						<a href="index.jsp">个人中心</a>
 					</li>
 					<li class="person">
 						<font size="3">个人资料</font>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="password.html">密码修改</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<li> <a href="information.jsp">个人信息</a></li>
+							<li> <a href="password.jsp">密码修改</a></li>
+							<li> <a href="address.jsp">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<font size="3">我的交易</font>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
-							<li><a href="sale.html">我的出售</a></li>
+							<li><a href="order.jsp">订单管理</a></li>
+							<li><a href="sale.jsp">我的出售</a></li>
 						</ul>
 					</li>
 
 					<li class="person">
 						<font size="3">我的小窝</font>
 						<ul>
-							<li> <a href="news.html">消息</a></li>
+							<li> <a href="news.jsp">消息</a></li>
 						</ul>
 					</li>
 

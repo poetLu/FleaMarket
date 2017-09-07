@@ -63,15 +63,42 @@ public class UserDao {
 		return false;
 	}
 
-	// 修改密码
-	public boolean resetPassword(String account, String password) throws SQLException {
+	//根据ID得到密码
+	public String getPassword(String id) {
 		connectDB();
-		String sql = "update user set user_password='" + password + "' where user_account='" + account + "'";
-		int records = getStatement().executeUpdate(sql);
-		if (records == 0)
+		String sql = "select user_password from user where user_id='" + id + "'";
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next())
+				return resultSet.getString(1);
+			return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}finally {
+			disconnectDB();
+		}
+	}
+	
+	// 修改密码
+	public boolean resetPassword(String id, String password) {
+		connectDB();
+		String sql = "update user set user_password='" + password + "' where user_id='" + id + "'";
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		disconnectDB();
-		return true;
+		} finally{
+			disconnectDB();
+		}
 	}
 
 	// 登录后由账号得到ID
@@ -117,14 +144,22 @@ public class UserDao {
 	}
 
 	// 根据ID编辑姓名
-	public boolean setName(String id, String name) throws SQLException {
+	public boolean setName(String id, String name) {
 		connectDB();
 		String sql = "update user set name='" + name + "' where user_id='" + id + "'";
-		int records = getStatement().executeUpdate(sql);
-		if (records == 0)
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		disconnectDB();
-		return true;
+		}finally {
+			disconnectDB();
+		}
 	}
 
 	// 根据ID得到生日
@@ -138,17 +173,55 @@ public class UserDao {
 		return null;
 	}
 
+	// 根据ID得到性别
+		public String getSex(String id) throws SQLException {
+			connectDB();
+			String sql = "select sex from user where user_id='" + id + "'";
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next())
+				return resultSet.getString(1);
+			disconnectDB();
+			return null;
+		}
+	
 	// 根据ID编辑性别
-	public boolean setSex(String id, String sex) throws SQLException {
+	public boolean setSex(String id, String sex) {
 		connectDB();
 		String sql = "update user set sex='" + sex + "' where user_id='" + id + "'";
-		int records = getStatement().executeUpdate(sql);
-		if (records == 0)
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		disconnectDB();
-		return true;
+		}finally{
+			disconnectDB();
+		}
 	}
 
+	// 根据ID编辑生日
+	public boolean setBirthday(String id, Date date) {
+		connectDB();
+		String sql = "update user set birthday='" + date + "' where user_id='" + id + "'";
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}finally{
+			disconnectDB();
+		}
+	}
+	
 	// 根据ID编辑生日
 	@SuppressWarnings("deprecation")
 	public boolean setBirthday(String id, int year, int month, int day) throws SQLException {
@@ -174,18 +247,25 @@ public class UserDao {
 	}
 
 	// 根据ID编辑电话
-	public boolean setTelphone(String id, String telephone) throws SQLException {
+	public boolean setTelphone(String id, String telephone) {
 		connectDB();
 		String sql = "update user set telephone='" + telephone + "' where user_id='" + id + "'";
-		int records = getStatement().executeUpdate(sql);
-		if (records == 0)
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		disconnectDB();
-		return true;
+		}finally{
+			disconnectDB();
+		}
 	}
 
 	// 根据用户ID得到用户未付款的商品条目
-	@SuppressWarnings("finally")
 	public List<Item> getUntradedItem(String id) throws SQLException {
 		List<Item> list = new ArrayList<Item>();
 		connectDB();
@@ -207,7 +287,6 @@ public class UserDao {
 	}
 
 	// 根据用户ID得到用户已付款的商品条目
-	@SuppressWarnings("finally")
 	public List<Item> getTradedItem(String id) throws SQLException {
 		List<Item> list = new ArrayList<Item>();
 		connectDB();
@@ -228,15 +307,42 @@ public class UserDao {
 		return list;
 	}
 
+	// 根据ID得到地址
+		public String getAddress(String id)  {
+			connectDB();
+			String sql = "select email_address from user where user_id='" + id + "'";
+			ResultSet resultSet;
+			try {
+				resultSet = getStatement().executeQuery(sql);
+				if (resultSet.next())
+					return resultSet.getString(1);
+				return null;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}finally {
+				disconnectDB();
+			}
+		}
+	
 	// 根据ID编辑地址
-	public boolean modifyEmail(String id, String address) throws SQLException {
+	public boolean modifyEmail(String id, String address) {
 		connectDB();
 		String sql = "update user set email_address='" + address + "' where user_id='" + id + "'";
-		int records = getStatement().executeUpdate(sql);
-		if (records == 0)
+		int records;
+		try {
+			records = getStatement().executeUpdate(sql);
+			if (records == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
-		disconnectDB();
-		return true;
+		}finally{
+			disconnectDB();
+		}
 	}
 
 	// 根据ID查看已付款的订单

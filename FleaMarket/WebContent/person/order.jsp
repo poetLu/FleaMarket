@@ -1,3 +1,6 @@
+<%@page import="com.icss.vo.Order"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +20,7 @@
 	<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 
 </head>
-
+<%@include file="common.jsp" %>
 <body>
 	<!--头 -->
 	<header>
@@ -112,12 +115,10 @@
 								<div class="order-list">
 									<!--交易成功-->
 									<div class="order-status5">
-
-
+										
 										<div class="order-title">
 											<div class="dd-num">订单编号：<a href="javascript:;">1601430</a></div>
 											<span>成交时间：2017-8-31</span>
-											<!--    <em>店铺：小桔灯</em>-->
 										</div>
 										<div class="order-content">
 											<div class="order-left">
@@ -149,7 +150,7 @@
 													</li>
 													<li class="td td-operation">
 														<div class="item-operation">
-
+															
 														</div>
 													</li>
 												</ul>
@@ -161,23 +162,18 @@
 														合计：666.00
 													</div>
 												</li>
-
-												<div class="move-right" >
+												<div class="move-right">
 													<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus" >交易成功</p>
-															</div>
+														<div class="item-status">
+															<p class="Mystatus">交易成功</p>
+														</div>
 													</li>
 													<li class="td td-change">
 														<div class="am-btn am-btn-danger anniu">
-															删除订单
-														</div>
-													</li>
+															删除订单</div>
+														</li>
 													</div>
 												</div>	
-
-													
-
 											</div>
 										</div>
 
@@ -254,7 +250,7 @@
 														</li>
 													</ul>
 
-
+													
 												</div>
 												<div class="order-right">
 													<li class="td td-amount">
@@ -266,10 +262,12 @@
 														<li class="td td-status">
 															<div class="item-status">
 																<p class="Mystatus">等待买家付款</p>
+																<p class="order-info"><a href="#">取消订单</a></p>
+
 															</div>
 														</li>
 														<li class="td td-change">
-															<a href="pay.jsp">
+															<a href="pay.html">
 																<div class="am-btn am-btn-danger anniu">
 																	一键支付</div></a>
 																</li>
@@ -313,7 +311,7 @@
 				<aside class="menu">
 					<ul>
 						<li class="person active">
-							<a href="index.jsp">个人中心</a>
+							<a href="index.html">个人中心</a>
 						</li>
 						<li class="person">
 							<font size="3">个人资料</font>

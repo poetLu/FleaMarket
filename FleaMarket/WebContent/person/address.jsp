@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -16,7 +18,7 @@
 	<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 
 </head>
-
+<%@ include file="common.jsp" %>
 <body>
 	<!--头 -->
 	<header>
@@ -79,11 +81,11 @@
 					<li class="user-addresslist defaultAddr">
 						<span class="new-option-r"><i class="am-icon-check-circle"></i>收货地址</span>
 						<p class="new-tit new-p-re">
-							<span class="new-txt">小叮当</span>
+							<span class="new-txt"><%=userId %></span>
 						</p>
 						<div>&nbsp;</div>
 						<div class="new-mu_l2a new-p-re">
-							地址 : 952320396@qq.com
+							地址 : <%=userDao.getAddress(userId) %>
 						</div>
 					</li>
 
@@ -115,7 +117,7 @@
 										<input id="user-address" placeholder="必填" type="email">
 									</div>
 								</div>
-
+								
 
 								<div class="am-form-group">
 									<div class="am-u-sm-9 am-u-sm-push-3">
@@ -141,6 +143,20 @@
 						alert("请填写姓名");
 					}else if(!address){
 						alert("请填写地址");
+					}else{
+						var xhr=new XMLHttpRequest();
+						xhr.onreadystatechange=function(){
+							if (xhr.readyState==4){
+								if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
+									document.getElementById("results").innerHTML=xhr.responseText;
+								} else {
+									alert("Request was unsuccessful:"+xhr.status);
+								}
+							}
+						}
+						xhr.open("get","http://localhost:8080/FleaMarket/address?name="+name+"&address="+address,false);
+						xhr.send(null);
+						setTimeout("window.location.reload()",900);
 					}
 				}
 				function cancel(){
@@ -151,12 +167,12 @@
 					$(".new-option-r").click(function() {
 						$(this).parent('.user-addresslist').addClass("defaultAddr").siblings().removeClass("defaultAddr");
 					});
-
+					
 					var $ww = $(window).width();
 					if($ww>640) {
 						$("#doc-modal-1").removeClass("am-modal am-modal-no-btn")
 					}
-
+					
 				})
 			</script>
 
@@ -190,28 +206,28 @@
 	<aside class="menu">
 		<ul>
 			<li class="person active">
-				<a href="index.html">个人中心</a>
+				<a href="index.jsp">个人中心</a>
 			</li>
 			<li class="person">
 				<font size="3">个人资料</font>
 				<ul>
-					<li> <a href="information.html">个人信息</a></li>
-					<li> <a href="password.html">密码修改</a></li>
-					<li> <a href="address.html">收货地址</a></li>
+					<li> <a href="information.jsp">个人信息</a></li>
+					<li> <a href="password.jsp">密码修改</a></li>
+					<li> <a href="address.jsp">收货地址</a></li>
 				</ul>
 			</li>
 			<li class="person">
 				<font size="3">我的交易</font>
 				<ul>
-					<li><a href="order.html">订单管理</a></li>
-					<li><a href="sale.html">我的出售</a></li>
+					<li><a href="order.jsp">订单管理</a></li>
+					<li><a href="sale.jsp">我的出售</a></li>
 				</ul>
 			</li>
 
 			<li class="person">
 				<font size="3">我的小窝</font>
 				<ul>
-					<li> <a href="news.html">消息</a></li>
+					<li> <a href="news.jsp">消息</a></li>
 				</ul>
 			</li>
 

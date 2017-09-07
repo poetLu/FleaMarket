@@ -18,6 +18,7 @@ import com.icss.service.UserService;
 
 /**
  * Servlet implementation class InformationServlet
+ * ×¢²áËùÐèµÄservlet
  */
 @WebServlet("/information")
 public class InformationServlet extends HttpServlet {

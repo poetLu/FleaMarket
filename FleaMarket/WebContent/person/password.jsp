@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +19,6 @@
 		<script src="../AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 
 	</head>
-
 	<body>
 		<!--头 -->
 		<header>
@@ -27,10 +28,10 @@
 					<div class="am-container header">
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="../home/home.html" target="_blank" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/FleaMarket/home" target="_blank" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="index.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
 								<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -71,7 +72,6 @@
 						<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">修改密码</strong> / <small>Password</small></div>
 					</div>
 					<hr/>
-					<!--进度条-->
 					<form class="am-form am-form-horizontal" style="margin-top:50px">
 						<div class="am-form-group">
 							<label for="user-old-password" class="am-form-label">原密码</label>
@@ -94,7 +94,7 @@
 						<div class="info-btn">
 							<div class="am-btn am-btn-danger" onclick="modify()">保存修改</div>
 						</div>
-						<div align="center"></div>
+						<div align="center" id="results"></div>
 					</form>
 
 				<script type="text/javascript">
@@ -125,6 +125,7 @@
 							}
 							xhr.open("get","http://localhost:8080/FleaMarket/passwordModify?oldPwd="+oldPwd+"&newPwd="+newPwd,true);
 							xhr.send(null);
+							setTimeout("window.location.reload()",900);
 						}
 					}
 				</script>
@@ -157,28 +158,28 @@
 			<aside class="menu">
 				<ul>
 					<li class="person active">
-						<a href="index.html">个人中心</a>
+						<a href="index.jsp">个人中心</a>
 					</li>
 					<li class="person">
 						<font size="3">个人资料</font>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="password.html">密码修改</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<li> <a href="information.jsp">个人信息</a></li>
+							<li> <a href="password.jsp">密码修改</a></li>
+							<li> <a href="address.jsp">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<font size="3">我的交易</font>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
-							<li><a href="sale.html">我的出售</a></li>
+							<li><a href="order.jsp">订单管理</a></li>
+							<li><a href="sale.jsp">我的出售</a></li>
 						</ul>
 					</li>
 
 					<li class="person">
 						<font size="3">我的小窝</font>
 						<ul>
-							<li> <a href="news.html">消息</a></li>
+							<li> <a href="news.jsp">消息</a></li>
 						</ul>
 					</li>
 
