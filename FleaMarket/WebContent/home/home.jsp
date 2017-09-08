@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<title>首页</title>
@@ -38,7 +38,7 @@
 						<%
 							}else{
 						%>
-						<a href="../person/index.html"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>
+						<a href="../person/index.jsp"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>
 						<% } %>
 					</div>
 				</div>
@@ -79,10 +79,10 @@
 		<!--轮播 -->
 		<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
 			<ul class="am-slides">
-				<li class="banner1"><a href="introduction.html"><img src="../images/ad1.jpg" /></a></li>
-				<li class="banner2"><a><img src="../images/ad2.jpg" /></a></li>
-				<li class="banner3"><a><img src="../images/ad3.jpg" /></a></li>
-				<li class="banner4"><a><img src="../images/ad4.jpg" /></a></li>
+				<li class="banner1"><a href="search.jsp?game=诛仙3"><img src="../images/ad1.jpg" /></a></li>
+				<li class="banner2"><a href="search.jsp?game=王者荣耀"><img src="../images/ad2.jpg" /></a></li>
+				<li class="banner3"><a href="search.jsp?game=英雄联盟"><img src="../images/ad3.jpg" /></a></li>
+				<li class="banner4"><a href="search.jsp?game=冒险岛2"><img src="../images/ad4.jpg" /></a></li>
 
 			</ul>
 		</div>
@@ -94,10 +94,10 @@
 			<div class="long-title"><span class="all-goods">全部分类</span></div>
 			<div class="nav-cont">
 				<ul>
-					<li class="qc"><a href="#">qq账号</a></li>
-					<li class="qc"><a href="#">梦幻西游</a></li>
-					<li class="qc"><a href="#">lol</a></li>
-					<li class="qc last"><a href="#">毒药</a></li>
+					<li class="qc"><a href="search.jsp?game=qq账号">qq账号</a></li>
+					<li class="qc"><a href="search.jsp?game=梦幻西游">梦幻西游</a></li>
+					<li class="qc"><a href="search.jsp?game=英雄联盟">lol</a></li>
+					<li class="qc last"><a href="search.jsp?game=王者荣耀">毒药</a></li>
 				</ul>
 			</div>					
 
@@ -110,64 +110,64 @@
 							<ul class="category-list" id="js_climit_li">
 								<li class="appliance js_toggle relative first">
 									<div class="category-info">
-										<h3 class="category-name b-category-name"><i><img src="../images/cake.png"></i><a class="ml-22" href="searchwz.html" target="_blank"  title="点心">王者荣耀</a></h3>
+										<h3 class="category-name b-category-name"><i><img src="../images/cake.png"></i><a class="ml-22" href="search.jsp?game=王者荣耀" target="_top"  title="点心">王者荣耀</a></h3>
 										<em>&gt;</em>
 									</div>
 									<b class="arrow"></b>	
 								</li>
 								<li class="appliance js_toggle relative">
 									<div class="category-info">
-										<h3 class="category-name b-category-name"><i><img src="../images/cookies.png"></i><a class="ml-22" href="search.html" target="_blank" title="饼干、膨化">qq账号</a>
-											<a href="search.html"></a></h3>
+										<h3 class="category-name b-category-name"><i><img src="../images/cookies.png"></i><a class="ml-22" href="search.jsp?game=qq账号" target="_top" title="饼干、膨化">qq账号</a>
+											<a href="/FleaMarket/search?game=qq账号"></a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/meat.png"></i><a class="ml-22" title="熟食、肉类">英雄联盟</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/meat.png"></i><a class="ml-22" href="search.jsp?game=英雄联盟" title="熟食、肉类">英雄联盟</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/bamboo.png"></i><a class="ml-22" title="素食、卤味">DNF地下城</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/bamboo.png"></i><a class="ml-22" href="search.jsp?game=DNF地下城" title="素食、卤味">DNF地下城</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/nut.png"></i><a class="ml-22" title="坚果、炒货">梦幻西游</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/nut.png"></i><a class="ml-22" href="search.jsp?game=梦幻西游" title="坚果、炒货">梦幻西游</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/candy.png"></i><a class="ml-22" title="糖果、蜜饯">诛仙3</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/candy.png"></i><a class="ml-22" href="search.jsp?game=诛仙3" title="糖果、蜜饯">诛仙3</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/chocolate.png"></i><a class="ml-22" title="巧克力">剑灵</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/chocolate.png"></i><a class="ml-22" href="search.jsp?game=剑灵" title="巧克力">剑灵</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/fish.png"></i><a class="ml-22" title="海味、河鲜">天龙八部</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/fish.png"></i><a class="ml-22" href="search.jsp?game=天龙八部" title="海味、河鲜">天龙八部</a></h3>
 											<em>&gt;</em>
 										</div>
 										<b class="arrow"></b>
 									</li>
 									<li class="appliance js_toggle relative">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/tea.png"></i><a class="ml-22" title="花茶、果茶">冒险岛2
+											<h3 class="category-name b-category-name"><i><img src="../images/tea.png"></i><a class="ml-22" href="search.jsp?game=冒险岛2" title="花茶、果茶">冒险岛2
 											</a></h3>
 											<em>&gt;</em>
 										</div>
@@ -175,7 +175,7 @@
 									</li>
 									<li class="appliance js_toggle relative last">
 										<div class="category-info">
-											<h3 class="category-name b-category-name"><i><img src="../images/package.png"></i><a class="ml-22" title="品牌、礼包">天涯明月刀</a></h3>
+											<h3 class="category-name b-category-name"><i><img src="../images/package.png"></i><a class="ml-22" href="search.jsp?game=天涯明月刀" title="品牌、礼包">天涯明月刀</a></h3>
 											<em>&gt;</em>
 										</div>
 									</li>
@@ -240,7 +240,7 @@
 							<h4>恋之微风篇</h4>
 						</div>
 						<div class="recommendationMain one">
-							<a href="introduction.html"><img src="../images/tj.png "></img></a>
+							<a href="search.jsp?game=王者荣耀"><img src="../images/tj.png "></img></a>
 						</div>
 					</div>						
 					<div class="am-u-sm-4 am-u-lg-3 ">
@@ -249,7 +249,7 @@
 							<h4>纯白花嫁篇</h4>
 						</div>
 						<div class="recommendationMain two">
-							<a href="introduction.html">
+							<a href="search.jsp?game=王者荣耀">
 								<img src="../images/tj1.png "></img>
 							</a>
 						</div>
@@ -260,7 +260,7 @@
 							<h4>缤纷独角兽</h4>
 						</div>
 						<div class="recommendationMain three">
-							<a href="introduction.html">
+							<a href="search.jsp?game=王者荣耀">
 								<img src="../images/tj2.png "></img>
 							</a>
 						</div>
@@ -280,10 +280,10 @@
 							<div class="icon-sale one "></div>	
 							<h4>秒杀</h4>							
 							<div class="activityMain ">
-								<img src="../images/activity1.jpg "></img>
+								<a href="search.jsp?game=天涯明月刀"><img src="../images/activity1.jpg "></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">体验游戏乐趣</a></h3>
+								<h3><a href="search.jsp?game=天涯明月刀">体验游戏乐趣</a></h3>
 							</div>														
 						</div>
 
@@ -291,10 +291,10 @@
 							<div class="icon-sale two "></div>	
 							<h4>特惠</h4>
 							<div class="activityMain ">
-								<img src="../images/activity2.jpg "></img>
+								<a href="search.jsp?game=英雄联盟"><img src="../images/activity2.jpg "></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">体验游戏乐趣</a></h3>								
+								<h3><a href="search.jsp?game=英雄联盟">体验游戏乐趣</a></h3>								
 							</div>							
 						</div>						
 
@@ -302,10 +302,10 @@
 							<div class="icon-sale three "></div>
 							<h4>准点</h4>
 							<div class="activityMain ">
-								<img src="../images/activity3.jpg "></img>
+								<a href="search.jsp?game=DNF地下城"><img src="../images/activity3.jpg "></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">体验游戏乐趣</a></h3>
+								<h3><a href="search.jsp?game=DNF地下城">体验游戏乐趣</a></h3>
 							</div>							
 						</div>						
 
@@ -313,10 +313,10 @@
 							<div class="icon-sale "></div>
 							<h4>超值</h4>
 							<div class="activityMain ">
-								<img src="../images/activity.jpg "></img>
+								<a href="search.jsp?game=冒险岛2"><img src="../images/activity.jpg "></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">体验游戏乐趣</a></h3>
+								<h3><a href="search.jsp?game=冒险岛2">体验游戏乐趣</a></h3>
 							</div>													
 						</div>
 
@@ -330,37 +330,37 @@
 					<div class="am-g am-g-fixed ">
 						<div class="am-u-sm-3 ">
 							<div class="activityMain ">
-								<img src="../images/c1.jpg " height="300px"></img>
+								<a href="search.jsp?game=天龙八部"><img src="../images/c1.jpg " height="300px"></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">打造神兵 开启你的远征</a></h3>
+								<h3><a href="search.jsp?game=天龙八部">打造神兵 开启你的远征</a></h3>
 							</div>														
 						</div>
 
 						<div class="am-u-sm-3 ">
 							<div class="activityMain ">
-								<img src="../images/c2.jpg " height="300px"></img>
+								<a href="search.jsp?game=诛仙3"><img src="../images/c2.jpg " height="300px"></img></a>
 							</div>
 							<div class="info ">
-								<h3>混沌乱世 屠魔诛仙</h3>								
+								<h3><a href="search.jsp?game=诛仙3">混沌乱世 屠魔诛仙</a></h3>								
 							</div>							
 						</div>						
 
 						<div class="am-u-sm-3 ">
 							<div class="activityMain ">
-								<img src="../images/c3.jpg " height="300px"></img>
+								<a href="search.jsp?game=剑灵"><img src="../images/c3.jpg " height="300px"></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">开天辟地 创立新世界</a></h3>
+								<h3><a href="search.jsp?game=剑灵">开天辟地 创立新世界</a></h3>
 							</div>							
 						</div>						
 
 						<div class="am-u-sm-3 last ">
 							<div class="activityMain ">
-								<img src="../images/c4.jpg " height="300px"></img>
+								<a href="search.jsp?game=天涯明月刀"><img src="../images/c4.jpg " height="300px"></img></a>
 							</div>
 							<div class="info ">
-								<h3><a href="#">即刻开启你的征途</a></h3>
+								<h3><a href="search.jsp?game=天涯明月刀">即刻开启你的征途</a></h3>
 							</div>													
 						</div>
 

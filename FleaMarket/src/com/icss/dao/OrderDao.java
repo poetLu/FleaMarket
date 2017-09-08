@@ -17,7 +17,7 @@ public class OrderDao {
 	public List<Item> getTradedItem(int id) {
 		connectDB();
 		List<Item> list = new ArrayList<Item>();
-		String sql = "select * from item where order_id=" + id + " amd pruchase_or_not=1";
+		String sql = "select * from item where order_id=" + id + " and purchase_or_not=1";
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			while (resultSet.next()) {
@@ -45,7 +45,7 @@ public class OrderDao {
 	public List<Item> getUnradedItem(int id) {
 		connectDB();
 		List<Item> list = new ArrayList<Item>();
-		String sql = "select * from item where order_id=" + id + " amd pruchase_or_not=0";
+		String sql = "select * from item where order_id=" + id + " and purchase_or_not=0";
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			while (resultSet.next()) {

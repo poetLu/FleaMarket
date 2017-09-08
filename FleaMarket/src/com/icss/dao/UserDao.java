@@ -1,23 +1,20 @@
 package com.icss.dao;
 
-import com.icss.vo.Item;
-import com.icss.vo.Order;
-import com.icss.vo.User;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-import com.sun.org.apache.bcel.internal.generic.Select;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
-import static com.icss.dao.DBHandle.*;
+import static com.icss.dao.DBHandle.connectDB;
+import static com.icss.dao.DBHandle.disconnectDB;
+import static com.icss.dao.DBHandle.getStatement;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import com.icss.vo.GoodsAbstract;
+import com.icss.vo.Item;
+import com.icss.vo.Order;
 
 //数据访问层
 public class UserDao {
@@ -349,14 +346,16 @@ public class UserDao {
 	public List<Order> getTradeOrder(String id) throws SQLException {
 		List<Item> list = getTradedItem(id);
 		connectDB();
-		Set<Order> set = new HashSet<Order>();
+		Set<Order> set = new LinkedHashSet<Order>();
 		for (Item item : list) {
 			String sql = "select * from order_info where order_id=(select order_id from item where item_id="
 					+ item.getItemId() + ")";
 			ResultSet resultSet = getStatement().executeQuery(sql);
-			int order_id = resultSet.getInt(1);
-			Date order_date = resultSet.getDate(2);
-			set.add(new Order(order_id, order_date));
+			while(resultSet.next()){
+				int order_id = resultSet.getInt(1);
+				Date order_date = resultSet.getDate(2);
+				set.add(new Order(order_id, order_date));
+			}
 		}
 		disconnectDB();
 		return new ArrayList<Order>(set);
@@ -366,7 +365,7 @@ public class UserDao {
 	public List<Order> getUntradeOrder(String id) throws SQLException {
 		List<Item> list = getUntradedItem(id);
 		connectDB();
-		Set<Order> set = new HashSet<Order>();
+		Set<Order> set = new LinkedHashSet<Order>();
 		for (Item item : list) {
 			String sql = "select * from order_info where order_id=(select order_id from item where item_id="
 					+ item.getItemId() + ")";
@@ -379,47 +378,59 @@ public class UserDao {
 		return new ArrayList<Order>(set);
 	}
 
-	// 根据ID查看未出售的商品
-	@SuppressWarnings("finally")
-	public List<Item> getUnsoldItem(String id) throws SQLException {
+	// 根据ID查看未出售的商品 
+	public List<Item> getUnsoldItem(String id) {
 		List<Item> list = new ArrayList<Item>();
 		connectDB();
 		String sql = "select * from item where dealer_id='" + id + "' and purchase_or_not=0";
-		ResultSet resultSet = getStatement().executeQuery(sql);
-		while (resultSet.next()) {
-			int itemId = resultSet.getInt("item_id");
-			int orderId = resultSet.getInt("order_id");
-			int goodsId = resultSet.getInt("goods_id");
-			int price = resultSet.getInt("price");
-			int amount = resultSet.getInt("amount");
-			String buyerId = resultSet.getString("buyer_id");
-			String dealerId = resultSet.getString("dealer_id");
-			Date date = resultSet.getDate("item_date");
-			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			while (resultSet.next()) {
+				int itemId = resultSet.getInt("item_id");
+				int orderId = resultSet.getInt("order_id");
+				int goodsId = resultSet.getInt("goods_id");
+				int price = resultSet.getInt("price");
+				int amount = resultSet.getInt("amount");
+				String buyerId = resultSet.getString("buyer_id");
+				String dealerId = resultSet.getString("dealer_id");
+				Date date = resultSet.getDate("item_date");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		disconnectDB();
 		return list;
 	}
 
 	// 根据ID查看已出售的商品
-	@SuppressWarnings("finally")
-	public List<Item> getSoldItem(String id) throws SQLException {
+	public List<Item> getSoldItem(String id) {
 		List<Item> list = new ArrayList<Item>();
 		connectDB();
 		String sql = "select * from item where dealer_id='" + id + "' and purchase_or_not=1";
-		ResultSet resultSet = getStatement().executeQuery(sql);
-		while (resultSet.next()) {
-			int itemId = resultSet.getInt("item_id");
-			int orderId = resultSet.getInt("order_id");
-			int goodsId = resultSet.getInt("goods_id");
-			int price = resultSet.getInt("price");
-			int amount = resultSet.getInt("amount");
-			String buyerId = resultSet.getString("buyer_id");
-			String dealerId = resultSet.getString("dealer_id");
-			Date date = resultSet.getDate("item_date");
-			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			while (resultSet.next()) {
+				int itemId = resultSet.getInt("item_id");
+				int orderId = resultSet.getInt("order_id");
+				int goodsId = resultSet.getInt("goods_id");
+				int price = resultSet.getInt("price");
+				int amount = resultSet.getInt("amount");
+				String buyerId = resultSet.getString("buyer_id");
+				String dealerId = resultSet.getString("dealer_id");
+				Date date = resultSet.getDate("item_date");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		disconnectDB();
 		return list;
 	}
+	
+	
 }

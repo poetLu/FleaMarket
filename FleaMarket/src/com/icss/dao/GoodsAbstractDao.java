@@ -7,26 +7,11 @@ import static com.icss.dao.DBHandle.getStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+
 //数据访问层
 public class GoodsAbstractDao {
-	// 商品概述上线
-	public boolean generateGoodsType(String type, String descrption, int price, String imgPath, int remain) {
-		connectDB();
-		String sql = "insert into goods_abstract values('" + type + "','" + descrption + "'," + price + ",'" + imgPath
-				+ "'," + remain + ")";
-		try {
-			int records = getStatement().executeUpdate(sql);
-			if (records == 0)
-				return false;
-			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		} finally {
-			disconnectDB();
-		}
-	}
+	
 
 	// 根据商品类型得到商品账号单价
 	public int getPrice(String type) {
@@ -61,6 +46,25 @@ public class GoodsAbstractDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0;
+		} finally {
+			disconnectDB();
+		}
+	}
+	
+	//根据商品类型得到商品描述
+	public String getDescription(String type){
+		connectDB();
+		String sql = "select goods_description from goods_abstract where goods_type='" + type + "'";
+		try {
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next()) {
+				return resultSet.getString(1);
+			}
+			return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		} finally {
 			disconnectDB();
 		}

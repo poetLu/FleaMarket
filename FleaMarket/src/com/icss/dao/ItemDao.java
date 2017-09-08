@@ -49,7 +49,7 @@ public class ItemDao {
 	// 根据条目ID得到商品ID
 	public int getGoodsId(int id) {
 		connectDB();
-		String sql = "select goods_id from item where idem_id=" + id;
+		String sql = "select goods_id from item where item_id=" + id;
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			if (resultSet.next()) {

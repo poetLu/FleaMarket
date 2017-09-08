@@ -1,6 +1,10 @@
+<%@page import="com.icss.service.OrderService"%>
+<%@page import="com.icss.service.ItemService"%>
+<%@page import="com.icss.dao.OrderDao"%>
+<%@page import="com.icss.vo.Item"%>
 <%@page import="com.icss.vo.Order"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +25,11 @@ pageEncoding="UTF-8"%>
 
 </head>
 <%@include file="common.jsp" %>
+<%!
+	OrderDao orderDao=new OrderDao();
+	ItemService itemService=new ItemService();
+	OrderService orderService=new OrderService();
+%>
 <body>
 	<!--头 -->
 	<header>
@@ -113,14 +122,16 @@ pageEncoding="UTF-8"%>
 
 							<div class="order-main">
 								<div class="order-list">
-									<!--交易成功-->
 									<div class="order-status5">
-										
+
+
+										<% for(Order order:userDao.getTradeOrder(userId)){ %>
 										<div class="order-title">
-											<div class="dd-num">订单编号：<a href="javascript:;">1601430</a></div>
-											<span>成交时间：2017-8-31</span>
+											<div class="dd-num">订单编号：<a href="javascript:;"><%=order.getOrderId() %></a></div>
+											<span>成交时间：<%=order.getOrderDate() %></span>
 										</div>
 										<div class="order-content">
+										<%for(Item item:orderDao.getTradedItem(order.getOrderId())){ %>
 											<div class="order-left">
 												<ul class="item-list">
 													<li class="td td-item">
@@ -132,52 +143,53 @@ pageEncoding="UTF-8"%>
 														<div class="item-info">
 															<div class="item-basic-info">
 																<a href="#">
-																	<p>王者荣耀全英雄全皮肤</p>
-																	<p class="info-little">平台：微信</p>
+																	<p><%=itemService.getGoodsAbstractType(item.getItemId()) %></p>
+																	<p class="info-little"><%=itemService.getGoodsAbstractDescription(item.getItemId()) %></p>
 																</a>
 															</div>
 														</div>
 													</li>
 													<li class="td td-price">
 														<div class="item-price">
-															333.00
+															<%=item.getPrice() %>
 														</div>
 													</li>
 													<li class="td td-number">
 														<div class="item-number">
-															<span>×</span>2
+															<span>×</span><%=item.getAmount() %>
 														</div>
 													</li>
 													<li class="td td-operation">
 														<div class="item-operation">
-															
+
 														</div>
 													</li>
 												</ul>
-
 											</div>
+											<%} %>
 											<div class="order-right">
 												<li class="td td-amount">
 													<div class="item-amount">
-														合计：666.00
+														合计：<%=orderService.getTotalPrice(order.getOrderId()) %>
 													</div>
 												</li>
-												<div class="move-right">
+
+												<div class="move-right" >
 													<li class="td td-status">
-														<div class="item-status">
-															<p class="Mystatus">交易成功</p>
-														</div>
+															<div class="item-status">
+																<p class="Mystatus" >交易成功</p>
+															</div>
 													</li>
 													<li class="td td-change">
 														<div class="am-btn am-btn-danger anniu">
-															删除订单</div>
-														</li>
+															删除订单
+														</div>
+													</li>
 													</div>
 												</div>	
 											</div>
+										<%} %>
 										</div>
-
-
 									</div>
 								</div>
 							</div>
@@ -210,71 +222,70 @@ pageEncoding="UTF-8"%>
 								<div class="order-main">
 									<div class="order-list">
 										<div class="order-status1">
-											<div class="order-title">
-												<div class="dd-num">订单编号：<a href="javascript:;">1601430</a></div>
-												<span>成交时间：2017-8-31</span>
-												<!--    <em>店铺：小桔灯</em>-->
-											</div>
-											<div class="order-content">
-												<div class="order-left">
-													<ul class="item-list">
-														<li class="td td-item">
-															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="../images/b2.jpg" class="itempic J_ItemImg"  height=80%>
+											<% for(Order order:userDao.getUntradeOrder(userId)){ %>
+										<div class="order-title">
+											<div class="dd-num">订单编号：<a href="javascript:;"><%=order.getOrderId() %></a></div>
+											<span>成交时间：<%=order.getOrderDate() %></span>
+										</div>
+										<div class="order-content">
+										<%for(Item item:orderDao.getTradedItem(order.getOrderId())){ %>
+											<div class="order-left">
+												<ul class="item-list">
+													<li class="td td-item">
+														<div class="item-pic">
+															<a href="#" class="J_MakePoint">
+																<img src="../images/b1.jpg" class="itempic J_ItemImg">
+															</a>
+														</div>
+														<div class="item-info">
+															<div class="item-basic-info">
+																<a href="#">
+																	<p><%=itemService.getGoodsAbstractType(item.getItemId()) %></p>
+																	<p class="info-little"><%=itemService.getGoodsAbstractDescription(item.getItemId()) %></p>
 																</a>
 															</div>
-															<div class="item-info">
-																<div class="item-basic-info">
-																	<a href="#">
-																		<p>问道土系万年道行高力敏打手</p>
-																		<p class="info-little">平台：PC</p>
-																	</a>
-																</div>
-															</div>
-														</li>
-														<li class="td td-price">
-															<div class="item-price">
-																333.00
-															</div>
-														</li>
-														<li class="td td-number">
-															<div class="item-number">
-																<span>×</span>2
-															</div>
-														</li>
-														<li class="td td-operation">
-															<div class="item-operation">
-
-															</div>
-														</li>
-													</ul>
-
-													
-												</div>
-												<div class="order-right">
-													<li class="td td-amount">
-														<div class="item-amount">
-															合计：666.00</p>
 														</div>
 													</li>
-													<div class="move-right">
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">等待买家付款</p>
-																<p class="order-info"><a href="#">取消订单</a></p>
-
-															</div>
-														</li>
-														<li class="td td-change">
-															<a href="pay.html">
-																<div class="am-btn am-btn-danger anniu">
-																	一键支付</div></a>
-																</li>
-															</div>
+													<li class="td td-price">
+														<div class="item-price">
+															<%=item.getPrice() %>
 														</div>
+													</li>
+													<li class="td td-number">
+														<div class="item-number">
+															<span>×</span><%=item.getAmount() %>
+														</div>
+													</li>
+													<li class="td td-operation">
+														<div class="item-operation">
 
+														</div>
+													</li>
+												</ul>
+											</div>
+											<%} %>
+											<div class="order-right">
+												<li class="td td-amount">
+													<div class="item-amount">
+														合计：<%=orderService.getTotalPrice(order.getOrderId()) %>
 													</div>
+												</li>
+
+												<div class="move-right" >
+													<li class="td td-status">
+															<div class="item-status">
+																<p class="Mystatus" >等待卖家付款</p>
+															</div>
+													</li>
+													<li class="td td-change">
+														<div class="am-btn am-btn-danger anniu">
+															一键支付
+														</div>
+													</li>
+													</div>
+												</div>	
+											</div>
+										<%} %>
 												</div>
 											</div>
 
@@ -311,7 +322,7 @@ pageEncoding="UTF-8"%>
 				<aside class="menu">
 					<ul>
 						<li class="person active">
-							<a href="index.html">个人中心</a>
+							<a href="index.jsp">个人中心</a>
 						</li>
 						<li class="person">
 							<font size="3">个人资料</font>

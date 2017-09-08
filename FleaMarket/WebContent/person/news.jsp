@@ -1,5 +1,15 @@
+<%@page import="com.icss.dao.GoodsDao"%>
+<%@page import="com.icss.service.ItemService"%>
+<%@page import="com.icss.vo.Item"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<%@include file="common.jsp" %>
+<%!
+	ItemService itemService=new ItemService();
+	GoodsDao goodsDao=new GoodsDao();
+%>
 
 	<head>
 		<meta charset="utf-8">
@@ -83,18 +93,19 @@
 							<div class="am-tabs-bd">								
 								<div class="am-tab-panel am-fade" id="tab">
 									<!--消息 -->
+										<%for(Item item:userDao.getTradedItem(userId)){ %>
 										<div class="s-msg-item s-msg-temp i-msg-downup">
-											<h6 class="s-msg-bar"><span class="s-name">尊敬的客户</span></h6>
+											<h6 class="s-msg-bar"><span class="s-name">尊贵的<%=userId %></span></h6>
 											<div class="s-msg-content i-msg-downup-wrap">
 												<div class="i-msg-downup-con">
 													<a class="i-markRead" target="_blank" >
 													<div class="m-item">	
 														<div class="item-pic">															
-																	<img src="../images/b5.jpg" class="itempic J_ItemImg">
+																	<img src="../images/<%=goodsDao.getType(item.getGoodsId()) %>.jpg" >
 														</div>
 														<div class="item-info">
-															<p class="item-comment">您购买的靓号已发至您的邮箱</p>
-															<p class="item-time">2017-8-31&nbsp;17:38:29</p>
+															<p class="item-comment">您购买的<%=goodsDao.getType(item.getGoodsId()) %>已发至您的邮箱</p>
+															<p class="item-time"><%=item.getItemDate() %></p>
 														</div>
                                                     </div>	
 													</a>
@@ -102,18 +113,21 @@
 											</div>
 											<a class="i-btn-forkout" href="#"><i class="am-icon-close am-icon-fw"></i></a>
 										</div>
+										<%} %>
+										<br>
+										<%for(Item item:userDao.getSoldItem(userId)){ %>
 										<div class="s-msg-item s-msg-temp i-msg-downup">
-											<h6 class="s-msg-bar"><span class="s-name">尊敬的客户</span></h6>
+											<h6 class="s-msg-bar"><span class="s-name">尊贵的<%=userId %></span></h6>
 											<div class="s-msg-content i-msg-downup-wrap">
 												<div class="i-msg-downup-con">
 													<a class="i-markRead" target="_blank" >
 													<div class="m-item">	
 														<div class="item-pic">															
-																	<img src="../images/b5.jpg" class="itempic J_ItemImg">
+																	<img src="../images/<%=goodsDao.getType(item.getGoodsId()) %>.jpg"  >
 														</div>
 														<div class="item-info">
-															<p class="item-comment">您购买的靓号已发至您的邮箱</p>
-															<p class="item-time">2017-8-31&nbsp;17:38:29</p>
+															<p class="item-comment">您的<%=goodsDao.getType(item.getGoodsId())%>已成功出售</p>
+															<p class="item-time"><%=item.getItemDate() %></p>
 														</div>
                                                     </div>	
 													</a>
@@ -121,6 +135,7 @@
 											</div>
 											<a class="i-btn-forkout" href="#"><i class="am-icon-close am-icon-fw"></i></a>
 										</div>
+										<%} %>
 								</div>
 							</div>
 						</div>

@@ -1,3 +1,9 @@
+<%@page import="com.icss.service.ItemService"%>
+<%@page import="com.icss.dao.OrderDao"%>
+<%@page import="com.icss.vo.Item"%>
+<%@page import="com.icss.vo.Order"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -46,7 +52,11 @@
 	</style> 
 
 </head>
-
+<%@include file="common.jsp" %>
+<%!
+	OrderDao orderDao=new OrderDao();
+	ItemService itemService=new ItemService();
+%>
 <body>
 	<!--头 -->
 	<header>
@@ -56,7 +66,7 @@
 				<div class="am-container header">
 					<ul class="message-r">
 						<div class="topMessage home">
-							<div class="menu-hd"><a href="FleaMarket/home" target="_blank" class="h">商城首页</a></div>
+							<div class="menu-hd"><a href="/FleaMarket/home" target="_blank" class="h">商城首页</a></div>
 						</div>
 						<div class="topMessage my-shangcheng">
 							<div class="menu-hd MyShangcheng"><a href="index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
@@ -116,7 +126,8 @@
 			<td><font color="white">密码</font></td><td><input type="text" id="password"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="确认" onclick="ha()"></td><td><button onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</button></td>
+			<td><input type="submit" value="确认" onclick="sale()"></td>
+			<td><button onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">取消</button></td>
 		</tr>
 		<tr>
 			<td id="results"><font color="red"></font></td>
@@ -125,7 +136,7 @@
 </div> 
 
 <script type="text/javascript">
-	function ha(){
+	function sale(){
 		var games=document.getElementById("games");
 		var game=games.options[games.selectedIndex].value;
 
@@ -140,7 +151,7 @@
 			xhr.onreadystatechange=function(){
 				if (xhr.readyState==4){
 					if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
-							document.getElementById("results").innerHTML=xhr.responseText;
+						document.getElementById("results").innerHTML=xhr.responseText;
 					} else {
 						alert("Request was unsuccessful:"+xhr.status);
 					}
@@ -200,9 +211,10 @@
 							<div class="order-main">
 								<div class="order-list">
 
-									<!--交易成功-->
 									<div class="order-status5">
+										
 										<div class="order-content">
+											<%for(Item item:userDao.getSoldItem(userId)){ %>
 											<div class="order-left">
 												<ul class="item-list">
 													<li class="td td-item">
@@ -214,20 +226,20 @@
 														<div class="item-info">
 															<div class="item-basic-info">
 																<a href="#">
-																	<p>王者荣耀</p>
-																	<p class="info-little">平台：微信</p>
+																	<p><%=itemService.getGoodsAbstractType(item.getItemId()) %></p>
+																	<p class="info-little"><%=itemService.getGoodsAbstractDescription(item.getItemId()) %></p>
 																</a>
 															</div>
 														</div>
 													</li>
 													<li class="td td-price">
 														<div class="item-price">
-															333.00
+															<%=item.getPrice() %>
 														</div>
 													</li>
 													<li class="td td-number">
 														<div class="item-number">
-															<span>×</span>2
+															<span>×</span><%=item.getAmount() %>
 														</div>
 													</li>
 													<li class="td td-operation">
@@ -236,12 +248,13 @@
 														</div>
 													</li>
 												</ul>
-
+											
 											</div>
+											
 											<div class="order-right" style="left: 555px;">
 												<li class="td td-amount">
 													<div class="item-amount" >
-														666.00
+														<%=item.getPrice()*item.getAmount() %>
 													</div>
 												</li>
 												<div class="move-right">
@@ -251,6 +264,7 @@
 														</li>
 													</div>
 												</div>	
+											<%} %>
 											</div>
 										</div>
 									</div>
@@ -277,6 +291,7 @@
 									<div class="order-list">
 										<div class="order-status1">
 											<div class="order-content">
+												<%for(Item item:userDao.getUnsoldItem(userId)){ %>
 												<div class="order-left">
 													<ul class="item-list">
 														<li class="td td-item">
@@ -288,20 +303,20 @@
 															<div class="item-info">
 																<div class="item-basic-info">
 																	<a href="#">
-																		<p>问道土系万年道行高力敏打手</p>
-																		<p class="info-little">平台：PC</p>
+																		<p><%=itemService.getGoodsAbstractType(item.getItemId()) %></p>
+																		<p class="info-little"><%=itemService.getGoodsAbstractDescription(item.getItemId()) %></p>
 																	</a>
 																</div>
 															</div>
 														</li>
 														<li class="td td-price">
 															<div class="item-price">
-																333.00
+																<%=item.getPrice() %>
 															</div>
 														</li>
 														<li class="td td-number">
 															<div class="item-number">
-																<span>×</span>2
+																<span>×</span><%=item.getAmount() %>
 															</div>
 														</li>
 														<li class="td td-operation">
@@ -322,6 +337,7 @@
 																</li>
 															</div>
 														</div>
+													<%} %>	
 													</div>
 												</div>
 											</div>

@@ -6,6 +6,8 @@ import static com.icss.dao.DBHandle.getStatement;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 //数据访问层
 public class GoodsDao {
@@ -88,7 +90,7 @@ public class GoodsDao {
 	// 商品上架(id自增)
 	public boolean upShelf(String account, String password, String type, String dealerId) {
 		connectDB();
-		String sql = "insert into goods values('" + account + "','" + password + "','" + dealerId + "')";
+		String sql = "insert into goods(goods_account,goods_password,goods_type,user_id) values('" + account + "','" + password + "','" +type+"','"+ dealerId + "')";
 		try {
 			int records = getStatement().executeUpdate(sql);
 			if (records == 0)
@@ -104,7 +106,7 @@ public class GoodsDao {
 	}
 
 	// 商品下架
-	public boolean upShelf(int id) {
+	public boolean downShelf(int id) {
 		connectDB();
 		String sql = "delete from goods where goods_id=" + id;
 		try {
@@ -116,6 +118,26 @@ public class GoodsDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
+		} finally {
+			disconnectDB();
+		}
+	}
+	
+	//根据商品类型得到商品ID
+	public List<Integer> getId(String type){
+		connectDB();
+		List<Integer> list=new ArrayList<Integer>();
+		String sql = "select goods_id from goods where goods_type=" + type;
+		try {
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			while (resultSet.next()) {
+				list.add(resultSet.getInt(1));
+			}
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		} finally {
 			disconnectDB();
 		}
