@@ -85,4 +85,22 @@ public class OrderDao {
 			disconnectDB();
 		}
 	}
+	
+	//得到数据库订单表下一出现的订单id
+	public int getExpectedId(){
+		connectDB();
+		String sql="select max(order_id) from order_info";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			if(resultSet.next())
+				return resultSet.getInt(1)+1;
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally {
+			disconnectDB();
+		}
+	}
 }

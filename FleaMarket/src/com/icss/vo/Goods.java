@@ -6,6 +6,17 @@ public class Goods {
 	private String goodsPassword;
 	private String goodsType;
 	private String dealerId;
+	private int remain;
+	
+	public Goods(int goodsId, String goodsAccount, String goodsPassword, String goodsType, String dealerId,int remain) {
+		super();
+		this.goodsId = goodsId;
+		this.goodsAccount = goodsAccount;
+		this.goodsPassword = goodsPassword;
+		this.goodsType = goodsType;
+		this.dealerId = dealerId;
+		this.remain=remain;
+	}
 	public int getGoodsId() {
 		return goodsId;
 	}
@@ -35,5 +46,11 @@ public class Goods {
 	}
 	public void setDealerId(String dealerId) {
 		this.dealerId = dealerId;
+	}
+	public int getRemain() {
+		return remain;
+	}
+	public void setRemain(int remain) {
+		this.remain = remain;
 	}
 }

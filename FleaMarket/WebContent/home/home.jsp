@@ -51,7 +51,7 @@
 					<div class="menu-hd MyShangcheng"><a href="/FleaMarket/personalCenter" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="../person/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="../person/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
 				</div>
 			</ul>
 		</div>
@@ -66,8 +66,8 @@
 
 			<div class="search-bar pr">
 				<a name="index_none_header_sysc" href="#"></a>
-				<form>
-					<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+				<form action="search.jsp">
+					<input id="searchInput" name="game" type="text" placeholder="搜索" autocomplete="off">
 					<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
 				</form>
 			</div>

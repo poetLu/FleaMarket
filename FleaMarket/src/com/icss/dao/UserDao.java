@@ -313,11 +313,11 @@ public class UserDao {
 				resultSet = getStatement().executeQuery(sql);
 				if (resultSet.next())
 					return resultSet.getString(1);
-				return null;
+				return "нч";
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return null;
+				return "нч";
 			}finally {
 				disconnectDB();
 			}
@@ -370,9 +370,11 @@ public class UserDao {
 			String sql = "select * from order_info where order_id=(select order_id from item where item_id="
 					+ item.getItemId() + ")";
 			ResultSet resultSet = getStatement().executeQuery(sql);
-			int order_id = resultSet.getInt(1);
-			Date order_date = resultSet.getDate(2);
-			set.add(new Order(order_id, order_date));
+			while(resultSet.next()){
+				int order_id = resultSet.getInt(1);
+				Date order_date = resultSet.getDate(2);
+				set.add(new Order(order_id, order_date));
+			}
 		}
 		disconnectDB();
 		return new ArrayList<Order>(set);

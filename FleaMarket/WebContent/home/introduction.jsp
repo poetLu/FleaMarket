@@ -1,3 +1,8 @@
+<%@page import="com.icss.dao.GoodsDao"%>
+<%@page import="com.icss.dao.UserDao"%>
+<%@page import="com.icss.dao.GoodsAbstractDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -24,7 +29,11 @@
 </head>
 
 <body>
-
+	<%!
+	GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
+	GoodsDao goodsDao=new GoodsDao();
+	UserDao userDao=new UserDao();
+	%>
 
 	<!--顶部导航条 -->
 	<div class="am-container header">
@@ -33,6 +42,8 @@
 				<div class="menu-hd">
 					<%
 					String userId=(String)session.getAttribute("userId");
+					String game=request.getParameter("game");
+					String dealerId=request.getParameter("dealerId");
 					if(userId==null){
 					%>
 					<a href="login.html" target="_top" class="h">亲，请登录</a>&nbsp;&nbsp;&nbsp;
@@ -67,7 +78,7 @@
 	</div>
 	<div class="search-bar pr">
 		<a name="index_none_header_sysc" href="#"></a>
-		<form>
+		<form action="search.jsp">
 			<input id="searchInput" name="game" type="text" placeholder="搜索" autocomplete="off">
 			<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
 		</form>
@@ -103,7 +114,7 @@
 			<div class="flexslider">
 				<ul class="slides">
 					<li>
-						<img src="../images/01.jpg" title="pic" />
+						<img src="../images/<%=game %>.jpg" title="pic" />
 					</li>
 				</ul>
 			</div>
@@ -128,7 +139,7 @@
 				</script>
 
 				<div class="tb-booth tb-pic tb-s310">
-					<a href="../images/01.jpg"><img src="../images/01_mid.jpg" alt="细节展示放大镜特效" rel="../images/01.jpg" class="jqzoom" /></a>
+					<a href="../images/01.jpg"><img src="../images/<%=game %>.jpg" alt="细节展示放大镜特效" rel="../images/01.jpg" class="jqzoom" /></a>
 				</div>
 			</div>
 
@@ -141,7 +152,7 @@
 			<!--名称-->
 			<div class="tb-detail-hd">
 				<h1>	
-					王者荣耀，王者一区，最强王者号至尊号脱坑转手
+					<%=game %>
 				</h1>
 			</div>
 			<div class="tb-detail-list">
@@ -149,7 +160,7 @@
 				<div class="tb-detail-price">
 					<li class="price iteminfo_price">
 						<dt>促销价</dt>
-						<dd><em>¥</em><b class="sys_item_price">0.01</b>  </dd>                                 
+						<dd><em>¥</em><b class="sys_item_price"><%=goodsAbstractDao.getPrice(game) %></b>  </dd>                                 
 					</li>
 					
 					<div class="clear"></div>
@@ -161,7 +172,7 @@
 					<div class="iteminfo_freprice">
 						<div class="am-form-content address">
 							<select data-am-selected>
-								<option value="a">123456@qq.com</option>
+								<option value="a"><%=userDao.getAddress(userId) %></option>
 							</select>
 						</div>
 					</div>
@@ -194,7 +205,7 @@
 												<input id="min" class="am-btn am-btn-default" name="" type="button" value="-" onclick="decrease()"/>
 												<input id="text_box" name="" type="text" value="1" style="width:30px;" disabled="disabled" />
 												<input id="add" class="am-btn am-btn-default" name="" type="button" value="+" onclick="increase()" />
-												<span id="Stock" class="tb-hidden">库存</span><span class="stock">1</span>件</span>
+												<span id="Stock" class="tb-hidden">库存</span><span class="stock"><%=goodsDao.getAmountOfSpecificGoodsByDealerId(dealerId, game) %></span>件</span>
 											</dd>
 
 										</div>
@@ -214,27 +225,26 @@
 					<div class="hot">
 						<dt class="tb-metatit">商品描述</dt>
 						<div class="gold-list">
-							<p></p>
+							<p><%=goodsAbstractDao.getDescription(game) %></p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="pay">
-				<div class="pay-opt">
-
-				</div>
 				<li>
 					<div class="clearfix tb-btn tb-btn-buy theme-login">
-						<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">加入购物车</a>
+						<a id="LikBuy" title="点此按钮到下一步确认购买信息" onclick="joinShoppingcart()">加入购物车</a>
 					</div>
 				</li>
 				<li>
 					<div class="clearfix tb-btn tb-btn-basket theme-login">
-						<a id="LikBasket" title="加入购物车" href="../person/shopcart.html" target="_blank"><i></i>查看购物车</a>
+						<a id="LikBasket" title="加入购物车" href="../person/shopcart.jsp" target="_top"><i></i>查看购物车</a>
 					</div>
 				</li>
 			</div>
+			
+			<div id="results" style="margin-top: 65px;margin-left:60px"><font color="red"></font></div>
 
 		</div>
 
@@ -281,9 +291,27 @@
 	}
 	function increase(){
 		var number=document.getElementById("text_box").value;
-		if(number<10){
+		if(number<<%=goodsDao.getAmountOfSpecificGoodsByDealerId(dealerId, game) %>){
 			document.getElementById("text_box").value=parseInt(number)+1;
 		}
+	}
+	function joinShoppingcart(){
+		var game="<%=game%>";
+		var dealerId="<%=dealerId%>";
+		var amount=document.getElementById("text_box").value;
+		var xhr=new XMLHttpRequest();
+		xhr.onreadystatechange=function(){
+			if (xhr.readyState==4){
+				if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
+					document.getElementById("results").innerHTML=xhr.responseText;
+				} else {
+					alert("Request was unsuccessful:"+xhr.status);
+				}
+			}
+		}
+		xhr.open("get","http://localhost:8080/FleaMarket/joinshoppingcart?game="+game+"&dealerId="+dealerId+"&amount="+amount,true);
+		xhr.send(null);
+		setTimeout("document.getElementById('results').innerHTML=''",2000);
 	}
 </script>
 

@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.icss.vo.Goods;
+
 //数据访问层
 public class GoodsDao {
 	// 根据ID得到商品类型
@@ -87,10 +89,57 @@ public class GoodsDao {
 		}
 	}
 
+	// 根据卖家ID得到此卖家出售的某种类型商品的数量
+	public int getAmountOfSpecificGoodsByDealerId(String dealerId, String type) {
+		connectDB();
+		String sql = "select remain from goods where user_id='" + dealerId + "' and goods_type='" + type + "'";
+		try {
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next()) {
+				return resultSet.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally {
+			disconnectDB();
+		}
+	}
+
+	//根据卖家ID判断是否出售某种类型的商品，是为1，否为0(用于搜索界面显示搜索到多少件相关商品)
+	public int getWhetherSell(String dealerId,String type){
+		connectDB();
+		String sql = "select * from goods where user_id='" + dealerId + "' and goods_type='" + type + "'";
+		try {
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next()) {
+				return 1; 
+			}
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally {
+			disconnectDB();
+		}
+	}
+	
 	// 商品上架(id自增)
 	public boolean upShelf(String account, String password, String type, String dealerId) {
 		connectDB();
-		String sql = "insert into goods(goods_account,goods_password,goods_type,user_id) values('" + account + "','" + password + "','" +type+"','"+ dealerId + "')";
+		String sql;
+		int remain = getAmountOfSpecificGoodsByDealerId(dealerId, type);
+		if (remain == 0) {
+			sql = "insert into goods(goods_account,goods_password,goods_type,user_id,remain) values('" + account + "','"
+					+ password + "','" + type + "','" + dealerId + "',1)";
+		} else {
+			remain++;
+			sql = "update goods set remain=" + remain + " where user_id='" + dealerId + "' and goods_type='" + type
+					+ "'";
+		}
 		try {
 			int records = getStatement().executeUpdate(sql);
 			if (records == 0)
@@ -106,9 +155,17 @@ public class GoodsDao {
 	}
 
 	// 商品下架
-	public boolean downShelf(int id) {
+	public boolean downShelf(String type, String dealerId) {
 		connectDB();
-		String sql = "delete from goods where goods_id=" + id;
+		String sql;
+		int remain = getAmountOfSpecificGoodsByDealerId(dealerId, type);
+		if (remain > 1) {
+			remain--;
+			sql = "update goods set remain=" + remain + " where user_id='" + dealerId + "' and goods_type='" + type
+					+ "'";
+		} else {
+			sql = "delete from goods where user_id='" + dealerId + "' and goods_type='" + type + "'";
+		}
 		try {
 			int records = getStatement().executeUpdate(sql);
 			if (records == 0)
@@ -122,22 +179,43 @@ public class GoodsDao {
 			disconnectDB();
 		}
 	}
-	
-	//根据商品类型得到商品ID
-	public List<Integer> getId(String type){
+
+	// 根据商品类型得到商品账号的集合
+	public List<Goods> getGoods(String type) {
 		connectDB();
-		List<Integer> list=new ArrayList<Integer>();
-		String sql = "select goods_id from goods where goods_type=" + type;
+		List<Goods> list = new ArrayList<Goods>();
+		String sql = "select * from goods where goods_type='" + type + "'";
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			while (resultSet.next()) {
-				list.add(resultSet.getInt(1));
+				Goods goods = new Goods(resultSet.getInt("goods_id"), resultSet.getString("goods_account"),
+						resultSet.getString("goods_password"), type, resultSet.getString("user_id"),
+						resultSet.getInt("remain"));
+				list.add(goods);
 			}
 			return list;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} finally {
+			disconnectDB();
+		}
+	}
+	
+	//根据卖家ID和游戏类型得到商品id
+	public int getGoodsId(String dealerId,String type){
+		connectDB();
+		String sql="select goods_id from goods where user_id='"+dealerId+"' and goods_type='"+type+"'";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			if(resultSet.next())
+				return resultSet.getInt(1);
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
 		} finally {
 			disconnectDB();
 		}

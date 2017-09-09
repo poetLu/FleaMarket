@@ -217,4 +217,18 @@ public class ItemDao {
 			disconnectDB();
 		}
 	}
+	
+	//商品加入购物车后生成新的条目
+	public void newUntradedItem(int orderId,int goodsId,int price,int amount,String buyerId,String dealerId,Date itemDate){
+		connectDB();
+		String sql="insert into item(order_id,goods_id,price,amount,buyer_id,dealer_id,item_date,purchase_or_not) values("+orderId+","+goodsId+","+price+","+amount+",'"+buyerId+"','"+dealerId+"','"+itemDate+"',0)";
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			disconnectDB();
+		}
+	}
 }

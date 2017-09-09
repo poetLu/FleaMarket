@@ -1,3 +1,4 @@
+<%@page import="com.icss.vo.Goods"%>
 <%@page import="com.icss.dao.GoodsDao"%>
 <%@page import="com.icss.dao.GoodsAbstractDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -35,12 +36,14 @@
 				<div class="menu-hd">
 					<%
 					String userId=(String)session.getAttribute("userId");
+					int amount=0;
 					if(userId==null){
 					%>
 					<a href="login.html" target="_top" class="h">亲，请登录</a>&nbsp;&nbsp;&nbsp;
 					<a href="register.html" target="_top">免费注册</a>
 					<%
 				}else{
+					amount=goodsDao.getWhetherSell(userId, type);
 				%>
 				<a href="../person/index.jsp"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>
 				<% } %>
@@ -55,7 +58,7 @@
 			<div class="menu-hd MyShangcheng"><a href="../person/index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 		</div>
 		<div class="topMessage mini-cart">
-			<div class="menu-hd"><a id="mc-menu-hd" href="../person/shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+			<div class="menu-hd"><a id="mc-menu-hd" href="../person/shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
 		</div>
 	</ul>
 </div>
@@ -92,7 +95,7 @@
 					<ul class="select">
 						<p class="title font-normal">
 							<span class="fl"><%=type %></span>&nbsp;
-							<span class="total fl">搜索到<strong class="num"><%=goodsDao.getId(type).size() %></strong>件相关商品</span>
+							<span class="total fl">搜索到<strong class="num"><%=goodsDao.getGoods(type).size()-amount %></strong>件相关商品</span>
 						</p>
 						<div class="clear"></div>
 						
@@ -106,249 +109,27 @@
 					<div class="clear"></div>
 
 					<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+						<%for(Goods goods:goodsDao.getGoods(type)){ 
+							if(goods.getDealerId().equals(userId))
+									continue;
+						%>
 						<li>
 							<div class="i-pic limit">
-								<img href="introductionqq.html" target="_blank" src="../images/imgsearch1.jpg" />											
-								<a class="title fl" href="introductionqq.html" target="_blank">【qq账号二手交易】【自营】极品5位短号qq出售包邮</a>
+								<a class="title fl" href="introduction.jsp?game=<%=type%>&dealerId=<%=goods.getDealerId() %>" target="_top">
+								<img href="introduction.jsp?game=<%=type%>&dealerId=<%=goods.getDealerId() %>" target="_blank" src="../images/<%=type %>.jpg" />											
+								<font color="#9D9D9D">【<%=type %>】</font><br><%=goodsAbstractDao.getDescription(type) %>
+								&nbsp;&nbsp;&nbsp;<p><font color="#2894FF">卖家：<%=goods.getDealerId() %></font></p>
 								<p class="price fl">
 									<b>¥</b>
-									<strong>99.90</strong>
+									<strong><%=goodsAbstractDao.getPrice(type) %></strong>
 								</p>
 								<p class="number fl">
-									销量<span>0</span>
+									库存<span><%=goods.getRemain() %></span>
 								</p>
+								</a>
 							</div>
 						</li>
-						<li>
-							<div class="i-pic limit">
-								<img src="../images/imgsearch1.jpg" />											
-								<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-								<p class="price fl">
-									<b>¥</b>
-									<strong>99.90</strong>
-								</p>
-								<p class="number fl">
-									销量<span>0</span>
-								</p>
-							</div>
-						</li><li>
-						<div class="i-pic limit">
-							<img src="../images/imgsearch1.jpg" />											
-							<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-							<p class="price fl">
-								<b>¥</b>
-								<strong>99.90</strong>
-							</p>
-							<p class="number fl">
-								销量<span>0</span>
-							</p>
-						</div>
-					</li><li>
-					<div class="i-pic limit">
-						<img src="../images/imgsearch1.jpg" />											
-						<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-						<p class="price fl">
-							<b>¥</b>
-							<strong>99.90</strong>
-						</p>
-						<p class="number fl">
-							销量<span>0</span>
-						</p>
-					</div>
-				</li><li>
-				<div class="i-pic limit">
-					<img src="../images/imgsearch1.jpg" />											
-					<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-					<p class="price fl">
-						<b>¥</b>
-						<strong>99.90</strong>
-					</p>
-					<p class="number fl">
-						销量<span>0</span>
-					</p>
-				</div>
-			</li><li>
-			<div class="i-pic limit">
-				<img src="../images/imgsearch1.jpg" />											
-				<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-				<p class="price fl">
-					<b>¥</b>
-					<strong>99.90</strong>
-				</p>
-				<p class="number fl">
-					销量<span>0</span>
-				</p>
-			</div>
-		</li><li>
-		<div class="i-pic limit">
-			<img src="../images/imgsearch1.jpg" />											
-			<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-			<p class="price fl">
-				<b>¥</b>
-				<strong>99.90</strong>
-			</p>
-			<p class="number fl">
-				销量<span>0</span>
-			</p>
-		</div>
-	</li><li>
-	<div class="i-pic limit">
-		<img src="../images/imgsearch1.jpg" />											
-		<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-		<p class="price fl">
-			<b>¥</b>
-			<strong>99.90</strong>
-		</p>
-		<p class="number fl">
-			销量<span>0</span>
-		</p>
-	</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li><li>
-<div class="i-pic limit">
-	<img src="../images/imgsearch1.jpg" />											
-	<p class="title fl">【qq账号二手交易】【自营】极品5位短号qq出售包邮</p>
-	<p class="price fl">
-		<b>¥</b>
-		<strong>99.90</strong>
-	</p>
-	<p class="number fl">
-		销量<span>0</span>
-	</p>
-</div>
-</li>
-
+						<%} %>
 </ul>
 </div>
 <div class="search-side">
@@ -359,41 +140,47 @@
 
 	<li>
 		<div class="i-pic check">
-			<img src="../images/cp.jpg" />
-			<p class="check-title">qq紫钻</p>
+		<a href="introduction.jsp?game=王者荣耀&dealerId=愁容骑士" target="_top">
+			<img src="../images/王者荣耀.jpg" />
+			<p class="check-title">王者荣耀</p>
 			<p class="price fl">
 				<b>¥</b>
-				<strong>9.90</strong>
+				<strong><%=goodsAbstractDao.getPrice("王者荣耀") %></strong>
 			</p>
 			<p class="number fl">
-				销量<span>1110</span>
+				库存<span><%=goodsAbstractDao.getRemain("王者荣耀") %></span>
 			</p>
+		</a>
 		</div>
 	</li>
 	<li>
 		<div class="i-pic check">
-			<img src="../images/cp2.jpg" />
-			<p class="check-title">qq蓝钻</p>
+		<a href="introduction.jsp?game=英雄联盟&dealerId=幽默大师" target="_top">
+			<img src="../images/英雄联盟.jpg" />
+			<p class="check-title">英雄联盟</p>
 			<p class="price fl">
 				<b>¥</b>
-				<strong>8.90</strong>
+				<strong><%=goodsAbstractDao.getPrice(type) %></strong>
 			</p>
 			<p class="number fl">
-				销量<span>1110</span>
+				库存<span><%=goodsAbstractDao.getRemain(type) %></span>
 			</p>
+		</a>
 		</div>
 	</li>
 	<li>
 		<div class="i-pic check">
-			<img src="../images/cp.jpg" />
-			<p class="check-title">qq紫钻</p>
+		<a href="introduction.jsp?game=天涯明月刀&dealerId=愁容骑士" target="_top">
+			<img src="../images/天涯明月刀.jpg" />
+			<p class="check-title">天涯明月刀</p>
 			<p class="price fl">
 				<b>¥</b>
-				<strong>9.90</strong>
+				<strong><%=goodsAbstractDao.getPrice("天涯明月刀") %></strong>
 			</p>
 			<p class="number fl">
-				销量<span>1110</span>
+				库存<span><%=goodsAbstractDao.getRemain("天涯明月刀") %></span>
 			</p>
+		</a>
 		</div>
 	</li>
 
