@@ -231,4 +231,18 @@ public class ItemDao {
 			disconnectDB();
 		}
 	}
+	
+	//用户点击删除按钮后该未交易的订单删除
+	public void deleteItem(int itemId){
+		connectDB();
+		String sql="delete from item where item_id="+itemId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			disconnectDB();
+		}
+	}
 }
