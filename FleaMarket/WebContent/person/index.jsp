@@ -58,8 +58,7 @@
 				<div class="topMessage mini-cart">
 					<div class="menu-hd">
 						<a id="mc-menu-hd" href="shopcart.jsp" target="_top"><i
-							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-							id="J_MiniCartNum" class="h">0</strong></a>
+							class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
 					</div>
 				</div>
 			</ul>
@@ -71,8 +70,8 @@
 			</div>
 			<div class="search-bar pr">
 				<a name="index_none_header_sysc" href="#"></a>
-				<form>
-					<input id="searchInput" name="index_none_header_sysc" type="text"
+				<form action="../home/search.jsp">
+					<input id="searchInput" name="game" type="text"
 						placeholder="搜索" autocomplete="off"> <input
 						id="ai-topsearch" class="submit am-btn" value="搜索" index="1"
 						type="submit">

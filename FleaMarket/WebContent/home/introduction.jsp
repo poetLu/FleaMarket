@@ -296,22 +296,35 @@ pageEncoding="UTF-8"%>
 		}
 	}
 	function joinShoppingcart(){
+		var userId="<%=userId%>"
 		var game="<%=game%>";
 		var dealerId="<%=dealerId%>";
 		var amount=document.getElementById("text_box").value;
-		var xhr=new XMLHttpRequest();
-		xhr.onreadystatechange=function(){
-			if (xhr.readyState==4){
-				if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
-					document.getElementById("results").innerHTML=xhr.responseText;
-				} else {
-					alert("Request was unsuccessful:"+xhr.status);
+		var amountInt=parseInt(amount);
+		if(userId==="null"){
+			document.getElementById("results").innerHTML="请登录";
+			setTimeout("document.getElementById('results').innerHTML=''",1000);
+		}else if(amountInt==0){
+			document.getElementById("results").innerHTML="数量不能为0";
+			setTimeout("document.getElementById('results').innerHTML=''",1000);
+		}else if(amountInt><%=goodsDao.getAmountOfSpecificGoodsByDealerId(dealerId, game) %>){
+			document.getElementById("results").innerHTML="当前库存为0";
+			setTimeout("document.getElementById('results').innerHTML=''",1000);
+		}else{
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if (xhr.readyState==4){
+					if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
+						document.getElementById("results").innerHTML=xhr.responseText;
+					} else {
+						alert("Request was unsuccessful:"+xhr.status);
+					}
 				}
 			}
+			xhr.open("get","http://localhost:8080/FleaMarket/joinshoppingcart?game="+game+"&dealerId="+dealerId+"&amount="+amount,true);
+			xhr.send(null);
+			setTimeout("document.getElementById('results').innerHTML=''",1000);
 		}
-		xhr.open("get","http://localhost:8080/FleaMarket/joinshoppingcart?game="+game+"&dealerId="+dealerId+"&amount="+amount,true);
-		xhr.send(null);
-		setTimeout("document.getElementById('results').innerHTML=''",1000);
 	}
 </script>
 

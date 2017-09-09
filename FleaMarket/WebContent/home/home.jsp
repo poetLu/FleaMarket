@@ -38,7 +38,8 @@
 						<%
 							}else{
 						%>
-						<a href="../person/index.jsp"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>
+						<a href="../person/index.jsp"><font size="4" color="red"><%=userId %></font></a><font size="4">,你好</font>&nbsp;&nbsp;&nbsp;
+						<a href="login.html">切换用户</a>
 						<% } %>
 					</div>
 				</div>

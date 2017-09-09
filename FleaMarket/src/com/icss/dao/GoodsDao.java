@@ -129,9 +129,9 @@ public class GoodsDao {
 	
 	// 商品上架(id自增)
 	public boolean upShelf(String account, String password, String type, String dealerId) {
-		connectDB();
 		String sql;
 		int remain = getAmountOfSpecificGoodsByDealerId(dealerId, type);
+		connectDB();
 		if (remain == 0) {
 			sql = "insert into goods(goods_account,goods_password,goods_type,user_id,remain) values('" + account + "','"
 					+ password + "','" + type + "','" + dealerId + "',1)";

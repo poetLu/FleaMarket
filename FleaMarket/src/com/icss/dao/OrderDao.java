@@ -42,7 +42,7 @@ public class OrderDao {
 
 	// 根据ID得到未完成的交易条目
 	@SuppressWarnings("finally")
-	public List<Item> getUnradedItem(int id) {
+	public List<Item> getUntradedItem(int id) {
 		connectDB();
 		List<Item> list = new ArrayList<Item>();
 		String sql = "select * from item where order_id=" + id + " and purchase_or_not=0";
@@ -107,7 +107,7 @@ public class OrderDao {
 	//生成新的订单记录
 	public void generateOrder(int orderId,Date date){
 		connectDB();
-		String sql="insert into order_info values("+orderId+",'"+date+"')";
+		String sql="insert into order_info values("+orderId+",'"+date+"',1)";
 		try {
 			getStatement().executeUpdate(sql);
 		} catch (SQLException e) {
@@ -116,5 +116,18 @@ public class OrderDao {
 		} finally {
 			disconnectDB();
 		}
+	}
+	
+	//根据订单ID设置其不可见
+	public void setInvisible(int orderId){
+		connectDB();
+		String sql="update order_info set visible=0 where order_id="+orderId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
 	}
 }

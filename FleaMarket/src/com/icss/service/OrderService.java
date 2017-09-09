@@ -12,4 +12,11 @@ public class OrderService {
 			total+=item.getPrice()*item.getAmount();
 		return total;
 	}
+	//根据订单ID得到未交易订单总价
+	public int getUnpayTotalPrice(int orderId){
+		int total=0;
+		for(Item item:orderDao.getUntradedItem(orderId))
+			total+=item.getPrice()*item.getAmount();
+		return total;
+	}
 }
