@@ -103,4 +103,18 @@ public class OrderDao {
 			disconnectDB();
 		}
 	}
+	
+	//生成新的订单记录
+	public void generateOrder(int orderId,Date date){
+		connectDB();
+		String sql="insert into order_info values("+orderId+",'"+date+"')";
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			disconnectDB();
+		}
+	}
 }

@@ -1,3 +1,10 @@
+<%@page import="com.icss.dao.OrderDao"%>
+<%@page import="com.icss.dao.GoodsAbstractDao"%>
+<%@page import="com.icss.dao.GoodsDao"%>
+<%@page import="com.icss.vo.Item"%>
+<%@page import="com.icss.dao.UserDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -17,7 +24,12 @@
 	<script type="text/javascript" src="../js/address.js"></script>
 
 </head>
-
+<%!
+	UserDao userDao=new UserDao();
+	GoodsDao goodsDao=new GoodsDao();
+	GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
+	OrderDao orderDao=new OrderDao();
+%>
 <body>
 
 	<!--顶部导航条 -->
@@ -44,13 +56,13 @@
 </ul>
 <ul class="message-r">
 	<div class="topMessage home">
-		<div class="menu-hd"><a href="/FleaMarket/home" target="_blank" class="h">商城首页</a></div>
+		<div class="menu-hd"><a href="/FleaMarket/home" target="_top" class="h">商城首页</a></div>
 	</div>
 	<div class="topMessage my-shangcheng">
 		<div class="menu-hd MyShangcheng"><a href="index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 	</div>
 	<div class="topMessage mini-cart">
-		<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+		<div class="menu-hd"><a id="mc-menu-hd" href="shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
 	</div>
 </ul>
 </div>
@@ -65,7 +77,7 @@
 
 	<div class="search-bar pr">
 		<a name="index_none_header_sysc" href="#"></a>
-		<form>
+		<form action="../home/search.jsp">
 			<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
 			<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
 		</form>
@@ -88,7 +100,7 @@
 							<span class="buy-address-detail">   
 								<span class="buy-user"><%=userId%> </span>
 								<br/>
-								<span>2567763117@qq.com</span>
+								<span><%=userDao.getAddress(userId) %></span>
 							</span>
 						</div>
 
@@ -132,7 +144,18 @@
 						</div>
 					</div>
 					<div class="clear"></div>
-
+					<%
+					int total=0;
+					int orderId=orderDao.getExpectedId();
+					for(Item item:userDao.getPreparedTradedItem(userId, orderId)) {
+						int itemId=item.getItemId();
+						String type=goodsDao.getType(item.getGoodsId());
+						String description=goodsAbstractDao.getDescription(type);
+						int unitprice=item.getPrice();
+						int amount=item.getAmount();
+						int totalprice=unitprice*amount;
+						total+=totalprice;
+					%>
 					<tr class="item-list">
 						<div class="bundle  bundle-last">
 
@@ -146,7 +169,7 @@
 												</div>
 												<div class="item-info">
 													<div class="item-basic-info">
-														王者荣耀<br>虞姬全皮肤账号
+														<%=type %><br /><%=description %>
 													</div>
 												</div>
 
@@ -154,19 +177,19 @@
 											<li class="td td-price">
 												<div class="item-price price-promo-promo">
 													<div class="price-content">
-														<em class="J_Price price-now">39.00</em>
+														<em class="J_Price price-now"><%=unitprice %></em>
 													</div>
 												</div>
 											</li>
 										</div>
 										<li class="td td-sum" style="margin-left: 50px">
 											<div class="td-inner">
-												<em tabindex="0" class="J_ItemSum number">1</em>
+												<em tabindex="0" class="J_ItemSum number"><%=amount %></em>
 											</div>
 										</li>
 										<li class="td td-sum" style="margin-left: 48px">
 											<div class="td-inner">
-												<em tabindex="0" class="J_ItemSum number">39.00</em>
+												<em tabindex="0" class="J_ItemSum number"><%=totalprice %></em>
 											</div>
 										</li>
 
@@ -175,7 +198,7 @@
 
 								</div>
 							</tr>
-
+							<%} %>
 							<div class="clear"></div>
 						</div>
 
@@ -189,17 +212,17 @@
 						<div class="box">
 							<div tabindex="0" id="holyshit267" class="realPay"><em class="t">应付：</em>
 								<span class="price g_price ">
-									<span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">98.00</em>
+									<span>¥</span> <em class="style-large-bold-red " id="J_ActualFee"><%=total %></em>
 								</span>
 							</div>
 
 
 						</p>
 						<p class="buy-footer-address">
-							<span class="buy-line-title">收货人：</span>
+							<span class="buy-line-title">收货信息：</span>
 							<span class="buy-address-detail">   
-								<span class="buy-user">李彦</span>
-								<span class="buy-phone">2567763117@qq.com</span>
+								<span class="buy-user"><%=userId %></span><span>|</span>
+								<span class="buy-phone"><%=userDao.getAddress(userId) %></span>
 							</span>
 						</p>
 					</div>
@@ -207,7 +230,7 @@
 
 				<div id="holyshit269" class="submitOrder">
 					<div class="go-btn-wrap">
-						<a id="J_Go" href="success.html" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
+						<a id="J_Go" href="/FleaMarket/orderGenerate?total=<%=total %>" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
 					</div>
 				</div>
 				<div class="clear"></div>

@@ -153,7 +153,7 @@
 							<ul class="item-content clearfix" id="ul2">
 								<li class="td td-chk">
 									<div class="cart-checkbox ">
-									<input class="check" id="check2" type="checkbox" onclick="checkone(this.id)">
+										<input class="check" id="check2" type="checkbox" onclick="checkone(this.id)">
 										<label for="J_CheckBox_170037950254"></label>
 									</div>
 								</li>
@@ -214,6 +214,7 @@
 						<div class="operations">
 							<a href="#" hidefocus="true" class="deleteAll">删除</a>
 						</div>
+						<div id="totalResults" style="margin-top: 14px;margin-left: 130px"></div>
 						<div class="float-bar-right">
 							<div class="amount-sum">
 								<span class="txt">已选商品</span>
@@ -304,6 +305,21 @@
 						var index=deleteid.substring(6,deleteid.length);
 						var results="results"+index;
 						document.getElementById(results).innerHTML="删除成功";
+					}
+					function deleteall(){
+						var objs=document.getElementsByTagName("input");
+						var xhr=new XMLHttpRequest();
+						for(var i=0;i<objs.length-1;i++){
+							if(objs[i].type=="checkbox"){
+								if(objs[i].checked){
+									var idlength=objs.id.length;
+									var itemId=objs.id.substring(5,idlength);
+									xhr.open("get","http://localhost:8080/FleaMarket/deleteItem?itemId="+itemId,false);
+								}
+							}
+						}
+						document.getElementById("totalResults").innerHTML="删除成功";
+						setTimeout("window.location.reload()",900);
 					}
 
 				</script>

@@ -1,25 +1,27 @@
 package com.icss.servlet;
 
 import java.io.IOException;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.icss.dao.ItemDao;
+import com.icss.dao.OrderDao;
 
 /**
- * Servlet implementation class DeleteItem
+ * Servlet implementation class OrderGenerateServlet
  */
-@WebServlet("/deleteItem")
-public class DeleteItem extends HttpServlet {
+@WebServlet("/orderGenerate")
+public class OrderGenerateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ItemDao itemDao=new ItemDao();
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteItem() {
+    public OrderGenerateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,10 +31,11 @@ public class DeleteItem extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int itemId=Integer.parseInt(request.getParameter("itemId"));
-		itemDao.deleteItem(itemId);
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().append("É¾³ý³É¹¦");
+		OrderDao orderDao=new OrderDao();
+		int orderId=orderDao.getExpectedId();
+		Date date=new Date(new java.util.Date().getTime());
+		orderDao.generateOrder(orderId, date);
+		request.getRequestDispatcher("/person/success.jsp").forward(request, response);
 	}
 
 	/**

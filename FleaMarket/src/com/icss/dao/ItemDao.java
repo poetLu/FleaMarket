@@ -66,38 +66,38 @@ public class ItemDao {
 	}
 
 	// 根据条目ID得到买家ID
-	public int getBuyerId(int id) {
+	public String getBuyerId(int id) {
 		connectDB();
 		String sql = "select buyer_id from item where idem_id=" + id;
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			if (resultSet.next()) {
-				return resultSet.getInt(1);
+				return resultSet.getString(1);
 			}
-			return 0;
+			return null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return 0;
+			return null;
 		} finally {
 			disconnectDB();
 		}
 	}
 
 	// 根据条目ID得到卖家ID
-	public int getDealerId(int id) {
+	public String getDealerId(int id) {
 		connectDB();
 		String sql = "select dealer_id from item where idem_id=" + id;
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			if (resultSet.next()) {
-				return resultSet.getInt(1);
+				return resultSet.getString(1);
 			}
-			return 0;
+			return null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return 0;
+			return null;
 		} finally {
 			disconnectDB();
 		}
@@ -106,7 +106,7 @@ public class ItemDao {
 	// 根据条目ID得到所购商品数量
 	public int getAmount(int id) {
 		connectDB();
-		String sql = "select amount from item where idem_id=" + id;
+		String sql = "select amount from item where item_id=" + id;
 		try {
 			ResultSet resultSet = getStatement().executeQuery(sql);
 			if (resultSet.next()) {
@@ -236,6 +236,20 @@ public class ItemDao {
 	public void deleteItem(int itemId){
 		connectDB();
 		String sql="delete from item where item_id="+itemId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			disconnectDB();
+		}
+	}
+	
+	//用户点击结算后将选择的条目的购物字段置为1
+	public void payItem(int itemId){
+		connectDB();
+		String sql="update item set purchase_or_not=1";
 		try {
 			getStatement().executeUpdate(sql);
 		} catch (SQLException e) {

@@ -179,6 +179,40 @@ public class GoodsDao {
 			disconnectDB();
 		}
 	}
+	
+	//根据商品ID得到商品库存
+	public int getRemain(int goodsId){
+		connectDB();
+		String sql="select remain from goods where goods_id="+goodsId;
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			if(resultSet.next())
+				return resultSet.getInt(1);
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}finally {
+			disconnectDB();
+		}
+	}
+	
+	//商品库存减少
+	public void remainDecrease(int goodsId,int amount){
+		int remain=getRemain(goodsId);
+		connectDB();
+		remain-=amount;
+		String sql="update goods set remain="+remain+" where goods_id="+goodsId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			disconnectDB();
+		}
+	}
 
 	// 根据商品类型得到商品账号的集合
 	public List<Goods> getGoods(String type) {

@@ -311,7 +311,7 @@ pageEncoding="UTF-8"%>
 		}
 		xhr.open("get","http://localhost:8080/FleaMarket/joinshoppingcart?game="+game+"&dealerId="+dealerId+"&amount="+amount,true);
 		xhr.send(null);
-		setTimeout("document.getElementById('results').innerHTML=''",2000);
+		setTimeout("document.getElementById('results').innerHTML=''",1000);
 	}
 </script>
 

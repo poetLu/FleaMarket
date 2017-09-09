@@ -127,9 +127,9 @@
 									href="order.html">全部订单</a>
 							</div>
 							<ul>
-								<li><a href="order.html"><i><img
+								<li><a href="order.jsp"><i><img
 											src="../images/pay.png" /></i><span>已付款<em class="m-num"><%=tradedOrder.size()%></em></span></a></li>
-								<li><a href="order.html"><i><img
+								<li><a href="order.jsp"><i><img
 											src="../images/comment.png" /></i><span>待付款<em
 											class="m-num"><%=untradedOrder.size()%></em></span></a></li>
 							</ul>

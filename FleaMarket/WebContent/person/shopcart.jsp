@@ -45,8 +45,8 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 					String dealerId = request.getParameter("dealerId");
 					if (userId == null) {
 					%>
-					<a href="login.html" target="_top" class="h">亲，请登录</a>&nbsp;&nbsp;&nbsp;
-					<a href="register.html" target="_top">免费注册</a>
+					<a href="../home/login.html" target="_top" class="h">亲，请登录</a>&nbsp;&nbsp;&nbsp;
+					<a href="../home/register.html" target="_top">免费注册</a>
 					<%
 				} else {
 				%>
@@ -55,6 +55,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 				<%
 			}
 			%>
+			</div>
 		</div>
 	</ul>
 	<ul class="message-r">
@@ -72,8 +73,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 			<div class="topMessage mini-cart">
 				<div class="menu-hd">
 					<a id="mc-menu-hd" href="shopcart.jsp" target="_top"><i
-						class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-						id="J_MiniCartNum" class="h">0</strong></a>
+						class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
 					</div>
 				</div>
 			</ul>
@@ -156,8 +156,8 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 									</div>
 									<div class="item-info">
 										<div class="item-basic-info">
-											<a href="#" target="_blank" title=""
-											class="item-title J_MakePoint" data-point="tbcart.8.11"><%=type %>,<%=description %></a>
+											<a href="#" target="_top" title=""
+											class="item-title J_MakePoint" data-point="tbcart.8.11"><%=type %><br/><%=description %></a>
 										</div>
 									</div>
 								</li>
@@ -208,8 +208,9 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 							<span>全选</span>
 						</div>
 						<div class="operations">
-							<a href="#" hidefocus="true" class="deleteAll">删除</a>
+							<a hidefocus="true" class="deleteAll" onclick="deleteall()">删除</a>
 						</div>
+						<div id="totalResults" style="margin-top: 14px;margin-left: 130px"></div>
 						<div class="float-bar-right">
 							<div class="amount-sum">
 								<span class="txt">已选商品</span> <em id="J_SelectedItemsCount">0</em><span
@@ -223,7 +224,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 								id="J_Total">0.00</em></strong>
 							</div>
 							<div class="btn-area">
-								<a href="../person/pay.html" id="J_Go"
+								<a onclick="pay()" id="J_Go"
 								class="submit-btn submit-btn-disabled"
 								aria-label="请注意如果没有选择宝贝，将无法结算"> <span>结&nbsp;算</span></a>
 							</div>
@@ -297,7 +298,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 						xhr.onreadystatechange=function(){
 							if (xhr.readyState==4){
 								if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
-									document.getElementById("results").innerHTML=xhr.responseText;
+									document.getElementById(results).innerHTML=xhr.responseText;
 								} else {
 									alert("Request was unsuccessful:"+xhr.status);
 								}
@@ -306,5 +307,36 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 						xhr.open("get","http://localhost:8080/FleaMarket/deleteItem?itemId="+itemId,false);
 						xhr.send(null);
 						setTimeout("window.location.reload()",900);
+					}
+					function deleteall(){
+						var objs=document.getElementsByTagName("input");
+						var xhr=new XMLHttpRequest();
+						for(var i=0;i<objs.length-1;i++){
+							if(objs[i].type=="checkbox"){
+								if(objs[i].checked){
+									var idlength=objs[i].id.length;
+									var itemId=objs[i].id.substring(5,idlength);
+									xhr.open("get","http://localhost:8080/FleaMarket/deleteItem?itemId="+itemId,false);
+									xhr.send(null);
+								}
+							}
+						}
+						document.getElementById("totalResults").innerHTML="删除成功";
+						setTimeout("window.location.reload()",900);
+					}
+					function pay(){
+						var objs=document.getElementsByTagName("input");
+						var xhr=new XMLHttpRequest();
+						for(var i=0;i<objs.length-1;i++){
+							if(objs[i].type=="checkbox"){
+								if(objs[i].checked){
+									var idlength=objs[i].id.length;
+									var itemId=objs[i].id.substring(5,idlength);
+									xhr.open("get","http://localhost:8080/FleaMarket/itemPay?itemId="+itemId,false);
+									xhr.send(null);
+								}
+							}
+						}
+						window.location.href="/FleaMarket/person/pay.jsp";
 					}
 				</script>

@@ -303,6 +303,33 @@ public class UserDao {
 		disconnectDB();
 		return list;
 	}
+	
+	//根据用户ID和订单ID得到用户此次需要付款的商品条目
+	public List<Item> getPreparedTradedItem(String userId,int order_id){
+		List<Item> list=new ArrayList<Item>();
+		connectDB();
+		String sql = "select * from item where buyer_id='" + userId + "' and purchase_or_not=1 and order_id="+order_id;
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			while (resultSet.next()) {
+				int itemId = resultSet.getInt("item_id");
+				int orderId = resultSet.getInt("order_id");
+				int goodsId = resultSet.getInt("goods_id");
+				int price = resultSet.getInt("price");
+				int amount = resultSet.getInt("amount");
+				String buyerId = resultSet.getString("buyer_id");
+				String dealerId = resultSet.getString("dealer_id");
+				Date date = resultSet.getDate("item_date");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
+		return list;
+	}
 
 	// 根据ID得到地址
 		public String getAddress(String id)  {
