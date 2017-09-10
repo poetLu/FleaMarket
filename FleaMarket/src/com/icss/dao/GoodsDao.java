@@ -4,12 +4,14 @@ import static com.icss.dao.DBHandle.connectDB;
 import static com.icss.dao.DBHandle.disconnectDB;
 import static com.icss.dao.DBHandle.getStatement;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.icss.vo.Goods;
+import com.icss.vo.Item;
 
 //数据访问层
 public class GoodsDao {
@@ -254,4 +256,48 @@ public class GoodsDao {
 			disconnectDB();
 		}
 	}
+	
+	//得到当前无人问津的商品总数
+	public int getStillRemain(){
+		connectDB();
+		int remain=0;
+		String sql="select remain from goods";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			while(resultSet.next()){
+				remain+=resultSet.getInt(1);
+			}
+			return remain;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally{
+			disconnectDB();
+		}
+	}
+	
+	//得到当尚未出售的商品
+		public List<Goods> getUnsoldGoods(){
+			connectDB();
+			List<Goods> list=new ArrayList<Goods>();
+			String sql="select * from goods where remain>0 order by remain";
+			try {
+				ResultSet resultSet=getStatement().executeQuery(sql);
+				while(resultSet.next()){
+					int goodsId=resultSet.getInt(1);
+					String account=resultSet.getString(2);
+					String password=resultSet.getString(3);
+					String type=resultSet.getString(4);
+					String userId=resultSet.getString(5);
+					int remain=resultSet.getInt(6);
+					list.add(new Goods(goodsId,account, password, type, userId, remain));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			disconnectDB();
+			return list;
+		}
 }

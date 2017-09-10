@@ -10,9 +10,24 @@ public class User {
 	private String name;
 	private String sex;
 	private Date birthday;
-	private int telephone;
+	private String telephone;
 	private String emailAddress;
 	private int points;
+
+	public User(String userId, String userAccount, String userPassword, Date loginDate, String name, String sex,
+			Date birthday, String telephone, String emailAddress, int points) {
+		super();
+		this.userId = userId;
+		this.userAccount = userAccount;
+		this.userPassword = userPassword;
+		this.loginDate = loginDate;
+		this.name = name;
+		this.sex = sex;
+		this.birthday = birthday;
+		this.telephone = telephone;
+		this.emailAddress = emailAddress;
+		this.points = points;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -70,11 +85,11 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public int getTelephone() {
+	public String getTelephone() {
 		return telephone;
 	}
 
-	public void setTelephone(int telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 

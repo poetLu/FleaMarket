@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.sql.Date"%>
+<%@page import="com.icss.dao.GoodsDao"%>
+<%@page import="com.icss.vo.Goods"%>
+<%@page import="com.icss.dao.UserDao"%>
+<%@page import="com.icss.dao.OrderDao"%>
+<%@page import="com.icss.dao.ItemDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +17,7 @@
     <!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <![endif]-->
-        <title>历史订单</title>
+        <title>网站概况</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME ICONS  -->
@@ -22,6 +31,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
+    <%!
+    	ItemDao itemDao=new ItemDao();
+    	OrderDao orderDao=new OrderDao();
+    	UserDao userDao=new UserDao();
+    	GoodsDao goodsDao=new GoodsDao();
+    %>
     <body>
         <header>
             <div class="container">
@@ -54,10 +69,6 @@
             <div class="left-div">
                 <div class="user-settings-wrapper">
                     <ul class="nav">
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -70,14 +81,20 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                           <li><a href="index.html"><strong>首页</strong></a></li>
-                           <li><a href="situation.jsp"><strong>网站概况</strong></a></li>
-                           <li><a class="menu-top-active"  href="history.jsp"><strong>历史订单</strong></a></li>
-                           <li><a href="manage.jsp"><strong>会员管理</strong></a></li>
-                           <li><a href="sales.jsp"><strong>在售账户</strong></a></li>
+                            <li><a  href="index.html"><strong>首页</strong></a></li>
+                            <li><a class="menu-top-active" href="situation.jsp"><strong>网站概况</strong></a></li>
+                            <li><a href="history.jsp"><strong>历史订单</strong></a></li>
+                            <li><a href="manage.jsp"><strong>会员信息</strong></a></li>
+                            <li><a href="sales.jsp"><strong>在售商品</strong></a></li>
+                            <!--
+                             <li><a href="login.html">Login Page</a></li>
+                            <li><a href="blank.html">Blank Page</a></li>
+                        -->
+
                     </ul>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -86,7 +103,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-head-line">历史订单</h1>
+                <h1 class="page-head-line">网站概况</h1>
             </div>
         </div>
         <div class="row">
@@ -94,39 +111,43 @@
               <!--   Kitchen Sink -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>历史订单</strong>
+                    <strong>网站概况</strong>
                 </div>
                 <div class="panel-body">
-                    <div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+                    <div ><table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>商品编号</th>
-                                <th>买家账号</th>
-                                <th>卖家账号</th>
-                                <th>商品账号</th>
-                                <th>交易日期</th>
-                                <th>交易状态</th>
-                                <th>操作</th>
+                                <th>日期</th>
+                                <th>日交易量</th>
+                                <th>日交易额</th>
+                                <th>总订单数</th>
+                                <th>总会员数</th>
+                                <th>总商品数</th>
                             </tr>
                         </thead>
                         <tbody>
+                        	<%
+                        	int i=1;
+                        	for(Date date:orderDao.getDateRange()){ 
+                        	%>
                             <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td><a href="#">删除</a></td>
+                                <td><%=i++ %></td>
+                                <td><%=date %></td>
+                                <td><%=itemDao.getTradingVolume(date) %></td>
+                                <td><%=itemDao.getTradingMoney(date) %></td>
+                                <td><%=orderDao.getOrderVolume(date) %></td>
+                                <td><%=userDao.getMemberAmount() %></td>
+                                <td><%=goodsDao.getStillRemain() %></td>
                             </tr>
+							<%}%>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <!-- End  Kitchen Sink -->
+
     </div>
 </div>
 

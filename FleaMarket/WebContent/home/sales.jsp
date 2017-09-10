@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+<%@page import="com.icss.dao.GoodsAbstractDao"%>
+<%@page import="com.icss.vo.Goods"%>
+<%@page import="com.icss.dao.GoodsDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +13,7 @@
     <!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <![endif]-->
-        <title>历史订单</title>
+        <title>在售商品</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME ICONS  -->
@@ -22,21 +27,25 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
+    <%!
+    	GoodsDao goodsDao=new GoodsDao();
+    	GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
+    %>
     <body>
         <header>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                       <strong> 王者解毒科技</strong>后台管理系统
-                       &nbsp;&nbsp;
-                       <strong></strong>
-                   </div>
+                     <strong> 王者解毒科技</strong>后台管理系统
+                     &nbsp;&nbsp;
+                     <strong></strong>
+                 </div>
 
-               </div>
-           </div>
-       </header>
-       <!-- HEADER END-->
-       <div class="navbar navbar-inverse set-radius-zero">
+             </div>
+         </div>
+     </header>
+     <!-- HEADER END-->
+     <div class="navbar navbar-inverse set-radius-zero">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -54,10 +63,6 @@
             <div class="left-div">
                 <div class="user-settings-wrapper">
                     <ul class="nav">
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -70,14 +75,15 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                           <li><a href="index.html"><strong>首页</strong></a></li>
-                           <li><a href="situation.jsp"><strong>网站概况</strong></a></li>
-                           <li><a class="menu-top-active"  href="history.jsp"><strong>历史订单</strong></a></li>
-                           <li><a href="manage.jsp"><strong>会员管理</strong></a></li>
-                           <li><a href="sales.jsp"><strong>在售账户</strong></a></li>
+                            <li><a  href="index.html"><strong>首页</strong></a></li>
+                            <li><a href="situation.jsp"><strong>网站概况</strong></a></li>
+                            <li><a href="history.jsp"><strong>历史订单</strong></a></li>
+                            <li><a href="manage.jsp"><strong>会员信息</strong></a></li>
+                            <li><a class="menu-top-active"  href="sales.jsp"><strong>在售商品</strong></a></li>
                     </ul>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -86,7 +92,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-head-line">历史订单</h1>
+                <h1 class="page-head-line">在售商品</h1>
             </div>
         </div>
         <div class="row">
@@ -94,7 +100,7 @@
               <!--   Kitchen Sink -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>历史订单</strong>
+                    <strong>在售商品</strong>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive"><table class="table table-striped table-bordered table-hover">
@@ -102,31 +108,31 @@
                             <tr>
                                 <th>#</th>
                                 <th>商品编号</th>
-                                <th>买家账号</th>
-                                <th>卖家账号</th>
-                                <th>商品账号</th>
-                                <th>交易日期</th>
-                                <th>交易状态</th>
-                                <th>操作</th>
+                                <th>账号类型</th>
+                                <th>所属卖家</th>
+                                <th>单价</th>
+                                <th>库存</th>
                             </tr>
                         </thead>
                         <tbody>
+                        <%
+                        	int i=1;
+                        	for(Goods goods:goodsDao.getUnsoldGoods()){
+                        %>
                             <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td><a href="#">删除</a></td>
+                                <td><%=i++ %></td>
+                                <td><%=goods.getGoodsId() %></td>
+                                <td><%=goods.getGoodsType() %></td>
+                                <td><%=goods.getDealerId() %></td>
+                                <td><%=goodsAbstractDao.getPrice(goods.getGoodsType()) %></td>
+                                <td><%=goods.getRemain() %></td>
                             </tr>
+                        <%}%>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <!-- End  Kitchen Sink -->
     </div>
 </div>
 

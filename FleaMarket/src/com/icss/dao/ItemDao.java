@@ -1,10 +1,16 @@
 package com.icss.dao;
 
-import static com.icss.dao.DBHandle.*;
+import static com.icss.dao.DBHandle.connectDB;
+import static com.icss.dao.DBHandle.disconnectDB;
+import static com.icss.dao.DBHandle.getStatement;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.icss.vo.Item;
 
 //数据访问层
 public class ItemDao {
@@ -259,4 +265,85 @@ public class ItemDao {
 			disconnectDB();
 		}
 	}
+	
+	//根据日期查询日交易量
+	public int getTradingVolume(Date date){
+		connectDB();
+		int volume=0;
+		String sql="select amount from item where item_date='"+date+"'";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			while(resultSet.next())
+				volume+=resultSet.getInt(1);
+			return volume;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}finally {
+			disconnectDB();
+		}
+	}
+	
+	//根据日期查询日交易额
+	public int getTradingMoney(Date date){
+		connectDB();
+		int total=0;
+		String sql="select * from item where item_date='"+date+"'";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			while(resultSet.next()){
+				total+=resultSet.getInt("price")*resultSet.getInt("amount");
+			}
+			return total;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}	finally {
+			disconnectDB();
+		}
+	}
+	
+	//根据日期降序查询所有成功出售的商品
+	public List<Item> getItemByDateDesc(){
+		connectDB();
+		List<Item> list=new ArrayList<Item>();
+		String sql="select * from item order by item_id desc";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			while(resultSet.next()){
+				int itemId=resultSet.getInt("item_id");
+				int orderId=resultSet.getInt("order_id");
+				int goodsId=resultSet.getInt("goods_id");
+				int price=resultSet.getInt("price");
+				int amount=resultSet.getInt("amount");
+				String buyerId=resultSet.getString("buyer_id");
+				String dealerId=resultSet.getString("dealer_id");
+				Date itemDate=resultSet.getDate("item_date");
+				byte purchaseOrNot=resultSet.getByte("purchase_or_not");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, purchaseOrNot));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
+		return list;
+	}
+	
+	//管理员删除记录
+	public void deleteRecord(int itemId){
+		connectDB();
+		String sql="delete from item where item_id="+itemId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
+	}
+	
+	
 }

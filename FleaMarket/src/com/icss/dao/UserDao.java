@@ -15,6 +15,7 @@ import java.util.Set;
 import com.icss.vo.GoodsAbstract;
 import com.icss.vo.Item;
 import com.icss.vo.Order;
+import com.icss.vo.User;
 
 //数据访问层
 public class UserDao {
@@ -30,10 +31,15 @@ public class UserDao {
 	}
 
 	// 删除用户
-	public void deleteUserById(String id) throws SQLException {
+	public void deleteUserById(String id){
 		connectDB();
 		String sql = "delete from user where user_id='" + id + "'";
-		getStatement().executeUpdate(sql);
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		disconnectDB();
 	}
 
@@ -458,5 +464,49 @@ public class UserDao {
 		return list;
 	}
 	
+	//得到目前网站的总会员数
+	public int getMemberAmount(){
+		connectDB();
+		String sql="select count(*) from user";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			if(resultSet.next())
+				return resultSet.getInt(1);
+			return 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally{
+			disconnectDB();
+		}
+	}
 	
+	//得到当前存在的会员
+	public List<User> getAllUser(){
+		connectDB();
+		List<User> list=new ArrayList<User>();
+		String sql="select * from user order by login_date desc";
+		try {
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			while(resultSet.next()){
+				String userId=resultSet.getString(1);
+				String userAccount=resultSet.getString(2);
+				String userPassword=resultSet.getString(3);
+				Date loginDate=resultSet.getDate(4);
+				String name=resultSet.getString(5);
+				String sex=resultSet.getString(6);
+				Date birthday=resultSet.getDate(7);
+				String telephone=resultSet.getString(8);
+				String address=resultSet.getString(9);
+				int points=resultSet.getInt(10);
+				list.add(new User(userId, userAccount, userPassword, loginDate, name, sex, birthday, telephone, address, points));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
+		return list;
+	}
 }
