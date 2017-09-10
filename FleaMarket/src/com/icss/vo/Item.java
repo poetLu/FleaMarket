@@ -12,9 +12,10 @@ public class Item {
 	private String dealerId;
 	private Date itemDate;
 	private byte purchaseOrNot;
+	int visible;
 
 	public Item(int itemId, int orderId, int goodsId, int price, int amount, String buyerId, String dealerId,
-			Date itemDate, byte purchaseOrNot) {
+			Date itemDate, byte purchaseOrNot, int visible) {
 		super();
 		this.itemId = itemId;
 		this.orderId = orderId;
@@ -25,6 +26,15 @@ public class Item {
 		this.dealerId = dealerId;
 		this.itemDate = itemDate;
 		this.purchaseOrNot = purchaseOrNot;
+		this.visible = visible;
+	}
+
+	public int getVisible() {
+		return visible;
+	}
+
+	public void setVisible(int visible) {
+		this.visible = visible;
 	}
 
 	public int getItemId() {

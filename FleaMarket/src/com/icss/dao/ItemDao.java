@@ -227,7 +227,7 @@ public class ItemDao {
 	//商品加入购物车后生成新的条目
 	public void newUntradedItem(int orderId,int goodsId,int price,int amount,String buyerId,String dealerId,Date itemDate){
 		connectDB();
-		String sql="insert into item(order_id,goods_id,price,amount,buyer_id,dealer_id,item_date,purchase_or_not) values("+orderId+","+goodsId+","+price+","+amount+",'"+buyerId+"','"+dealerId+"','"+itemDate+"',0)";
+		String sql="insert into item(order_id,goods_id,price,amount,buyer_id,dealer_id,item_date,purchase_or_not,visible) values("+orderId+","+goodsId+","+price+","+amount+",'"+buyerId+"','"+dealerId+"','"+itemDate+"',0,1)";
 		try {
 			getStatement().executeUpdate(sql);
 		} catch (SQLException e) {
@@ -322,7 +322,8 @@ public class ItemDao {
 				String dealerId=resultSet.getString("dealer_id");
 				Date itemDate=resultSet.getDate("item_date");
 				byte purchaseOrNot=resultSet.getByte("purchase_or_not");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, purchaseOrNot));
+				int visible=resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, purchaseOrNot,visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -345,5 +346,16 @@ public class ItemDao {
 		disconnectDB();
 	}
 	
-	
+	//根据条目ID设置对用户不可见
+	public void setInvisible(int itemId){
+		connectDB();
+		String sql="update item set visible=0 where item_id="+itemId;
+		try {
+			getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		disconnectDB();
+	}
 }

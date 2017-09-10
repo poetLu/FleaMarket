@@ -23,15 +23,14 @@ public class UserDao {
 	public void addUser(String id, String account, String password, Date loginDate, String name, String sex,
 			Date birthday, String telepohne, String email, int points) throws SQLException {
 		connectDB();
-		String sql = "insert into user values('" + id + "','" + account + "','" + password + "','" 
-				+ loginDate + "','" + name + "','"+ sex + "','" + birthday + "','" + telepohne
-				+ "','" + email + "'," + points+")";
+		String sql = "insert into user values('" + id + "','" + account + "','" + password + "','" + loginDate + "','"
+				+ name + "','" + sex + "','" + birthday + "','" + telepohne + "','" + email + "'," + points + ")";
 		getStatement().executeUpdate(sql);
 		disconnectDB();
 	}
 
 	// 删除用户
-	public void deleteUserById(String id){
+	public void deleteUserById(String id) {
 		connectDB();
 		String sql = "delete from user where user_id='" + id + "'";
 		try {
@@ -66,7 +65,7 @@ public class UserDao {
 		return false;
 	}
 
-	//根据ID得到密码
+	// 根据ID得到密码
 	public String getPassword(String id) {
 		connectDB();
 		String sql = "select user_password from user where user_id='" + id + "'";
@@ -80,11 +79,11 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			disconnectDB();
 		}
 	}
-	
+
 	// 修改密码
 	public boolean resetPassword(String id, String password) {
 		connectDB();
@@ -99,7 +98,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		} finally{
+		} finally {
 			disconnectDB();
 		}
 	}
@@ -160,7 +159,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}finally {
+		} finally {
 			disconnectDB();
 		}
 	}
@@ -177,16 +176,16 @@ public class UserDao {
 	}
 
 	// 根据ID得到性别
-		public String getSex(String id) throws SQLException {
-			connectDB();
-			String sql = "select sex from user where user_id='" + id + "'";
-			ResultSet resultSet = getStatement().executeQuery(sql);
-			if (resultSet.next())
-				return resultSet.getString(1);
-			disconnectDB();
-			return null;
-		}
-	
+	public String getSex(String id) throws SQLException {
+		connectDB();
+		String sql = "select sex from user where user_id='" + id + "'";
+		ResultSet resultSet = getStatement().executeQuery(sql);
+		if (resultSet.next())
+			return resultSet.getString(1);
+		disconnectDB();
+		return null;
+	}
+
 	// 根据ID编辑性别
 	public boolean setSex(String id, String sex) {
 		connectDB();
@@ -201,7 +200,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}finally{
+		} finally {
 			disconnectDB();
 		}
 	}
@@ -220,11 +219,11 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}finally{
+		} finally {
 			disconnectDB();
 		}
 	}
-	
+
 	// 根据ID编辑生日
 	@SuppressWarnings("deprecation")
 	public boolean setBirthday(String id, int year, int month, int day) throws SQLException {
@@ -263,7 +262,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}finally{
+		} finally {
 			disconnectDB();
 		}
 	}
@@ -283,7 +282,8 @@ public class UserDao {
 			String buyerId = resultSet.getString("buyer_id");
 			String dealerId = resultSet.getString("dealer_id");
 			Date date = resultSet.getDate("item_date");
-			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+			int visible = resultSet.getInt("visible");
+			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0, visible));
 		}
 		disconnectDB();
 		return list;
@@ -304,17 +304,19 @@ public class UserDao {
 			String buyerId = resultSet.getString("buyer_id");
 			String dealerId = resultSet.getString("dealer_id");
 			Date date = resultSet.getDate("item_date");
-			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1));
+			int visible = resultSet.getInt("visible");
+			list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1, visible));
 		}
 		disconnectDB();
 		return list;
 	}
-	
-	//根据用户ID和订单ID得到用户此次需要付款的商品条目
-	public List<Item> getPreparedTradedItem(String userId,int order_id){
-		List<Item> list=new ArrayList<Item>();
+
+	// 根据用户ID和订单ID得到用户此次需要付款的商品条目
+	public List<Item> getPreparedTradedItem(String userId, int order_id) {
+		List<Item> list = new ArrayList<Item>();
 		connectDB();
-		String sql = "select * from item where buyer_id='" + userId + "' and purchase_or_not=1 and order_id="+order_id;
+		String sql = "select * from item where buyer_id='" + userId + "' and purchase_or_not=1 and order_id="
+				+ order_id;
 		ResultSet resultSet;
 		try {
 			resultSet = getStatement().executeQuery(sql);
@@ -327,7 +329,8 @@ public class UserDao {
 				String buyerId = resultSet.getString("buyer_id");
 				String dealerId = resultSet.getString("dealer_id");
 				Date date = resultSet.getDate("item_date");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1));
+				int visible = resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1, visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -338,24 +341,24 @@ public class UserDao {
 	}
 
 	// 根据ID得到地址
-		public String getAddress(String id)  {
-			connectDB();
-			String sql = "select email_address from user where user_id='" + id + "'";
-			ResultSet resultSet;
-			try {
-				resultSet = getStatement().executeQuery(sql);
-				if (resultSet.next())
-					return resultSet.getString(1);
-				return "无";
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "无";
-			}finally {
-				disconnectDB();
-			}
+	public String getAddress(String id) {
+		connectDB();
+		String sql = "select email_address from user where user_id='" + id + "'";
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next())
+				return resultSet.getString(1);
+			return "无";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "无";
+		} finally {
+			disconnectDB();
 		}
-	
+	}
+
 	// 根据ID编辑地址
 	public boolean modifyEmail(String id, String address) {
 		connectDB();
@@ -370,7 +373,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}finally{
+		} finally {
 			disconnectDB();
 		}
 	}
@@ -384,11 +387,11 @@ public class UserDao {
 			String sql = "select * from order_info where order_id=(select order_id from item where item_id="
 					+ item.getItemId() + ")";
 			ResultSet resultSet = getStatement().executeQuery(sql);
-			while(resultSet.next()){
+			while (resultSet.next()) {
 				int order_id = resultSet.getInt(1);
 				Date order_date = resultSet.getDate(2);
-				int visible=resultSet.getInt(3);
-				set.add(new Order(order_id, order_date,visible));
+				int visible = resultSet.getInt(3);
+				set.add(new Order(order_id, order_date, visible));
 			}
 		}
 		disconnectDB();
@@ -401,16 +404,16 @@ public class UserDao {
 		connectDB();
 		Set<Order> set = new LinkedHashSet<Order>();
 		for (Item item : list) {
-			int orderId=item.getOrderId();
-			Date orderDate=item.getItemDate();
-			int visible=1;
+			int orderId = item.getOrderId();
+			Date orderDate = item.getItemDate();
+			int visible = 1;
 			set.add(new Order(orderId, orderDate, visible));
 		}
 		disconnectDB();
 		return new ArrayList<Order>(set);
 	}
 
-	// 根据ID查看未出售的商品 
+	// 根据ID查看未出售的商品
 	public List<Item> getUnsoldItem(String id) {
 		List<Item> list = new ArrayList<Item>();
 		connectDB();
@@ -427,7 +430,8 @@ public class UserDao {
 				String buyerId = resultSet.getString("buyer_id");
 				String dealerId = resultSet.getString("dealer_id");
 				Date date = resultSet.getDate("item_date");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+				int visible = resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1, visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -454,7 +458,8 @@ public class UserDao {
 				String buyerId = resultSet.getString("buyer_id");
 				String dealerId = resultSet.getString("dealer_id");
 				Date date = resultSet.getDate("item_date");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 0));
+				int visible = resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, date, (byte) 1, visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -463,44 +468,45 @@ public class UserDao {
 		disconnectDB();
 		return list;
 	}
-	
-	//得到目前网站的总会员数
-	public int getMemberAmount(){
+
+	// 得到目前网站的总会员数
+	public int getMemberAmount() {
 		connectDB();
-		String sql="select count(*) from user";
+		String sql = "select count(*) from user";
 		try {
-			ResultSet resultSet=getStatement().executeQuery(sql);
-			if(resultSet.next())
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next())
 				return resultSet.getInt(1);
 			return 0;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return 0;
-		} finally{
+		} finally {
 			disconnectDB();
 		}
 	}
-	
-	//得到当前存在的会员
-	public List<User> getAllUser(){
+
+	// 得到当前存在的会员
+	public List<User> getAllUser() {
 		connectDB();
-		List<User> list=new ArrayList<User>();
-		String sql="select * from user order by login_date desc";
+		List<User> list = new ArrayList<User>();
+		String sql = "select * from user order by login_date desc";
 		try {
-			ResultSet resultSet=getStatement().executeQuery(sql);
-			while(resultSet.next()){
-				String userId=resultSet.getString(1);
-				String userAccount=resultSet.getString(2);
-				String userPassword=resultSet.getString(3);
-				Date loginDate=resultSet.getDate(4);
-				String name=resultSet.getString(5);
-				String sex=resultSet.getString(6);
-				Date birthday=resultSet.getDate(7);
-				String telephone=resultSet.getString(8);
-				String address=resultSet.getString(9);
-				int points=resultSet.getInt(10);
-				list.add(new User(userId, userAccount, userPassword, loginDate, name, sex, birthday, telephone, address, points));
+			ResultSet resultSet = getStatement().executeQuery(sql);
+			while (resultSet.next()) {
+				String userId = resultSet.getString(1);
+				String userAccount = resultSet.getString(2);
+				String userPassword = resultSet.getString(3);
+				Date loginDate = resultSet.getDate(4);
+				String name = resultSet.getString(5);
+				String sex = resultSet.getString(6);
+				Date birthday = resultSet.getDate(7);
+				String telephone = resultSet.getString(8);
+				String address = resultSet.getString(9);
+				int points = resultSet.getInt(10);
+				list.add(new User(userId, userAccount, userPassword, loginDate, name, sex, birthday, telephone, address,
+						points));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

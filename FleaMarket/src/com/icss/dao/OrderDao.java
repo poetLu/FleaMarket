@@ -31,7 +31,8 @@ public class OrderDao {
 				String buyerId = resultSet.getString("buyer_id");
 				String dealerId = resultSet.getString("dealer_id");
 				Date itemDate = resultSet.getDate("item_date");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, (byte) 1));
+				int visible=resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, (byte) 1, visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -59,7 +60,8 @@ public class OrderDao {
 				String buyerId = resultSet.getString("buyer_id");
 				String dealerId = resultSet.getString("dealer_id");
 				Date itemDate = resultSet.getDate("item_date");
-				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, (byte) 0));
+				int visible=resultSet.getInt("visible");
+				list.add(new Item(itemId, orderId, goodsId, price, amount, buyerId, dealerId, itemDate, (byte) 0,visible));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

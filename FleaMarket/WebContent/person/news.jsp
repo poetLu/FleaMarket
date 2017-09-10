@@ -138,7 +138,7 @@
 								<%
 									}
 								%>
-								<br />
+								
 								<%
 									for (Item item : userDao.getSoldItem(userId)) {
 								%>
