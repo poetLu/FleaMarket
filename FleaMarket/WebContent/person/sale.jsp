@@ -168,7 +168,7 @@ ItemService itemService = new ItemService();%>
 							}
 						}
 					}
-					xhr.open("get", "http://localhost:8080/FleaMarket/sale?game="
+					xhr.open("get", "/FleaMarket/sale?game="
 						+ game + "&account=" + account + "&password="
 						+ password, false);
 					xhr.send(null);
@@ -413,7 +413,7 @@ ItemService itemService = new ItemService();%>
 				var itemId=deleteId.substring(6,deleteId.length);
 				document.getElementById(itemId).remove();
 				var xhr = new XMLHttpRequest();
-				xhr.open("get", "http://localhost:8080/FleaMarket/hideitem?itemId="
+				xhr.open("get", "/FleaMarket/hideitem?itemId="
 				+ itemId, false);
 				xhr.send(null);
 			}
@@ -421,7 +421,7 @@ ItemService itemService = new ItemService();%>
 				var itemId=deleteId.substring(6,deleteId.length);
 				document.getElementById(itemId).remove();
 				var xhr = new XMLHttpRequest();
-				xhr.open("get", "http://localhost:8080/FleaMarket/deleteItem?itemId="
+				xhr.open("get", "/FleaMarket/deleteItem?itemId="
 				+ itemId, false);
 				xhr.send(null);
 			}

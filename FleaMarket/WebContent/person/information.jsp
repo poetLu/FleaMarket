@@ -209,7 +209,7 @@
 						}
 					}
 					xhr.open("get",
-							"http://localhost:8080/FleaMarket/informationModify?name="
+							"/FleaMarket/informationModify?name="
 									+ name + "&sex=" + sex + "&year=" + year
 									+ "&month=" + month + "&day=" + day
 									+ "&telephone=" + telephone, false);

@@ -40,18 +40,20 @@
 			xhr.onreadystatechange=function(){
 				if (xhr.readyState==4){
 					if((xhr.status>=200  && xhr.status < 300)|| xhr.status ==304) {
-						if(xhr.responseText=="此账号不存在")
+						if(xhr.responseText=="此账号不存在"){
 							document.getElementById("results").innerHTML=xhr.responseText;
-						else if(xhr.responseText=="密码错误，请重新输入")
+							setTimeout("document.getElementById('results').innerHTML=''",1000);
+						}else if(xhr.responseText=="密码错误，请重新输入"){
 							document.getElementById("results").innerHTML=xhr.responseText;
-						else
+							setTimeout("document.getElementById('results').innerHTML=''",1000);
+						}else
 							window.open(xhr.responseText,'_self');
 					} else {
 						alert("Request was unsuccessful:"+xhr.status);
 					}
 				}
 			}
-			xhr.open("get","http://localhost:8080/FleaMarket/login?username="+username+"&password="+password+"&identify="+identify,true);
+			xhr.open("get","/FleaMarket/login?username="+username+"&password="+password+"&identify="+identify,true);
 			xhr.send(null);
 		}
 	</script>

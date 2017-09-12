@@ -255,7 +255,7 @@ public class ItemDao {
 	//用户点击结算后将选择的条目的购物字段置为1
 	public void payItem(int itemId){
 		connectDB();
-		String sql="update item set purchase_or_not=1";
+		String sql="update item set purchase_or_not=1 where item_id="+itemId;
 		try {
 			getStatement().executeUpdate(sql);
 		} catch (SQLException e) {

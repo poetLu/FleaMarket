@@ -11,6 +11,9 @@ import java.util.List;
 
 import com.icss.vo.Item;
 import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+import com.sun.org.apache.xpath.internal.operations.And;
+
+import sun.reflect.annotation.AnnotatedTypeFactory;
 
 //数据访问层
 public class OrderDao {
@@ -93,16 +96,24 @@ public class OrderDao {
 	// 得到数据库订单表下一出现的订单id
 	public int getExpectedId() {
 		connectDB();
+		int expectedId=0;
 		String sql = "select max(order_id) from order_info";
 		try {
-			ResultSet resultSet = getStatement().executeQuery(sql);
-			if (resultSet.next())
-				return resultSet.getInt(1) + 1;
-			return 0;
+			ResultSet resultSet=getStatement().executeQuery(sql);
+			if(resultSet.next()){
+				expectedId=resultSet.getInt(1);
+				sql="select * from item where order_id="+expectedId+" and purchase_or_not=0";
+				resultSet=getStatement().executeQuery(sql);
+				if(resultSet.next())
+					return expectedId;
+				else
+					return expectedId+1;
+			}
+			return expectedId;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return 0;
+			return expectedId;
 		} finally {
 			disconnectDB();
 		}

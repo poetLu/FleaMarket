@@ -1,4 +1,3 @@
-
 package com.icss.servlet;
 
 import java.io.IOException;
@@ -7,20 +6,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.icss.dao.ItemDao;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class RecordDeleteServlet
+ * Servlet implementation class ShoppingCartGlanceServlet
  */
-@WebServlet("/recordDelete")
-public class RecordDeleteServlet extends HttpServlet {
+@WebServlet("/shoppingcartGlance")
+public class ShoppingCartGlanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private ItemDao itemDao=new ItemDao();   
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecordDeleteServlet() {
+    public ShoppingCartGlanceServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +28,11 @@ public class RecordDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int itemId=Integer.parseInt(request.getParameter("itemId"));
-		itemDao.deleteRecord(itemId);
+		HttpSession session=request.getSession();
+		if(session.getAttribute("userId")!=null)
+			response.sendRedirect("/FleaMarket/person/shopcart.jsp");
+		else
+			response.sendRedirect("/FleaMarket/home/login.html");
 	}
 
 	/**

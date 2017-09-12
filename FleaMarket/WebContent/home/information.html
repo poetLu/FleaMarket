@@ -33,18 +33,18 @@
 						</ul>
 						<div class="am-tabs-bd">
 							<div class="am-tab-panel am-active">
-								<form method="post">		
+								<form method="post" action="information">		
 								   	<div class="user-pass">
 										<label >ID</label>
-										<input name="" id="id" placeholder="请输入ID(不可更改)">
+										<input name="id" id="id" placeholder="请输入ID(不可更改)">
 	                 				</div>										
 		                			<div class="user-pass">
 										<label >姓名</label>
-										<input name="" id="name" placeholder="请输入姓名">
+										<input name="name" id="name" placeholder="请输入姓名">
 		                 			</div>										
 		                 			<div class="user-pass">
 										&nbsp;性别&nbsp;
-										<select id="sex" style="height: 40px;margin-left: 3px">
+										<select name="sex" id="sex" style="height: 40px;margin-left: 3px">
 											<option>请选择</option>
 											<option>男</option>
 											<option>女</option>
@@ -52,23 +52,24 @@
 		                 			</div>
 		                 			<div class="user-pass">
 										<label >生日</i></label>
-										<input name="" id="birthday" placeholder="YYYY-MM-DD">
+										<input name="birthday" id="birthday" placeholder="YYYY-MM-DD">
 		                 			</div>
 		                 			<div class="user-pass">
 										<label >电话</i></label>
-										<input name="" id="tel" placeholder="请确认电话">
+										<input name="telephone" id="tel" placeholder="请确认电话">
 		                 			</div>
 		                 			<div class="user-pass">
 										<label >邮箱</i></label>
-										<input name="" id="email" placeholder="请确认邮箱地址">
+										<input name="email" id="email" placeholder="请确认邮箱地址">
 		                 			</div>	
-                 				</form>
+                 				
 								<div class="am-cf">
-									<input type="submit" name="" value="提交" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="submit()">
+									<input type="submit" name="" value="提交" class="am-btn am-btn-primary am-btn-sm am-fl" >
 								</div>
+								</form>
 							</div>
 
-							<script>
+							<!-- <script>
 								function submit(){
 									var id=document.getElementById("id").value;
 									var name=document.getElementById("name").value;
@@ -76,9 +77,9 @@
 									var birthday=document.getElementById("birthday").value;
 									var telephone=document.getElementById("tel").value;
 									var email=document.getElementById("email").value;
-									window.open('http://localhost:8080/FleaMarket/information?id='+id+'&name='+name+'&sex='+sex+'&birthday='+birthday+'&telephone='+telephone+'&email='+email,'_self');
+									window.open('information?id='+id+'&name='+name+'&sex='+sex+'&birthday='+birthday+'&telephone='+telephone+'&email='+email,'_self');
 								}
-							</script>
+							</script> -->
 						</div>
 					</div>
 

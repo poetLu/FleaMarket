@@ -229,7 +229,7 @@
 								<strong class="price">¥<em id="J_Total">0</em></strong>
 							</div>
 							<div class="btn-area">
-								<a href="../person/pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+								<a onclick="pay()" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 									<span>结&nbsp;算</span></a>
 								</div>
 							</div>
@@ -321,5 +321,17 @@
 						document.getElementById("totalResults").innerHTML="删除成功";
 						setTimeout("window.location.reload()",900);
 					}
-
+					function pay(){
+						var objs=document.getElementsByTagName("input");
+						var xhr=new XMLHttpRequest();
+						for(var i=0;i<objs.length-1;i++){
+							if(objs[i].type=="checkbox"){
+								if(objs[i].checked){
+									var idlength=objs[i].id.length;
+									var itemId=objs[i].id.substring(5,idlength);
+									alert(itemId);
+								}
+							}
+						}
+					}
 				</script>

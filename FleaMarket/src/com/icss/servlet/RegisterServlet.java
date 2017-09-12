@@ -40,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 			} else {
 				session.setAttribute("username", username);
 				session.setAttribute("password", password);
-				response.getWriter().print("information.html");
+				response.getWriter().append("information.html");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

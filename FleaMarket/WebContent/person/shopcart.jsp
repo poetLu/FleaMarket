@@ -304,7 +304,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 								}
 							}
 						}
-						xhr.open("get","http://localhost:8080/FleaMarket/deleteItem?itemId="+itemId,false);
+						xhr.open("get","/FleaMarket/deleteItem?itemId="+itemId,false);
 						xhr.send(null);
 						setTimeout("window.location.reload()",900);
 					}
@@ -316,7 +316,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 								if(objs[i].checked){
 									var idlength=objs[i].id.length;
 									var itemId=objs[i].id.substring(5,idlength);
-									xhr.open("get","http://localhost:8080/FleaMarket/deleteItem?itemId="+itemId,false);
+									xhr.open("get","/FleaMarket/deleteItem?itemId="+itemId,false);
 									xhr.send(null);
 								}
 							}
@@ -332,7 +332,7 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 								if(objs[i].checked){
 									var idlength=objs[i].id.length;
 									var itemId=objs[i].id.substring(5,idlength);
-									xhr.open("get","http://localhost:8080/FleaMarket/itemPay?itemId="+itemId,false);
+									xhr.open("get","/FleaMarket/itemPay?itemId="+itemId,false);
 									xhr.send(null);
 								}
 							}

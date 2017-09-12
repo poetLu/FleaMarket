@@ -20,7 +20,7 @@ import com.icss.service.UserService;
  * Servlet implementation class InformationServlet
  * 注册所需的servlet
  */
-@WebServlet("/information")
+@WebServlet("/home/information")
 public class InformationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao=new UserDao();
@@ -30,12 +30,14 @@ public class InformationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 从浏览器接收请求参数
 		HttpSession session=request.getSession();
+		request.setCharacterEncoding("UTF-8");
 		String id=request.getParameter("id"),name=request.getParameter("name"),sex=request.getParameter("sex"),email=request.getParameter("email");
 		String rawBirthday=request.getParameter("birthday"),telephone=request.getParameter("telephone");
 		String account=(String)session.getAttribute("username"),password=(String)session.getAttribute("password");
 		java.util.Date date=new java.util.Date();
 		Date loginDate=new Date(date.getTime());
 		Date birth=Date.valueOf(rawBirthday);
+		System.out.println(id);
 		try {
 //			System.out.println(id+"\n"+account+"\n"+password+"\n"+loginDate+"\n"+name+"\n"+sex+"\n"+birth+"\n"+telephone+"\n"+email);
 			userDao.addUser(id, account, password, loginDate, name, sex, birth, telephone, email, 100);
@@ -44,7 +46,7 @@ public class InformationServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.getSession().setAttribute("userId", id);
-		response.sendRedirect("/FleaMarket/home");
+		response.sendRedirect("home.jsp");
 	}	
 
 	/**

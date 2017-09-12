@@ -39,6 +39,10 @@ public class LoginServlet extends HttpServlet {
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
 		String identify=request.getParameter("identify");
+		String userId=null;
+		if((userId=userDao.getID(username))!=null){
+			request.getSession().setAttribute("userId", userId);
+		}
 		String result;
 		if(identify.equals("”√ªß"))
 			result=userLogin(username, password);
@@ -46,10 +50,6 @@ public class LoginServlet extends HttpServlet {
 			result=managerLogin(username, password);
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().append(result);
-		String userId;
-		if((userId=userDao.getID(username))!=null){
-			request.getSession().setAttribute("userId", userId);
-		}
 	}
 	
 	/**

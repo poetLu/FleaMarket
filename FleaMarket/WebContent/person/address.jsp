@@ -178,7 +178,7 @@
 								}
 							}
 							xhr.open("get",
-									"http://localhost:8080/FleaMarket/address?name="
+									"/FleaMarket/address?name="
 											+ name + "&address=" + address,
 									false);
 							xhr.send(null);

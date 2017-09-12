@@ -43,7 +43,7 @@
   <ul class="message-r">
     <div class="topMessage home"><div class="menu-hd"><a href="/FleaMarket/home" target="_top" class="h">商城首页</a></div></div>
     <div class="topMessage my-shangcheng"><div class="menu-hd MyShangcheng"><a href="/FleaMarket/person/index.jsp" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div></div>
-    <div class="topMessage mini-cart"><div class="menu-hd"><a id="mc-menu-hd" href="/FleaMarket/shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div></div>
+    <div class="topMessage mini-cart"><div class="menu-hd"><a id="mc-menu-hd" href="/FleaMarket/person/shopcart.jsp" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div></div>
   </ul>
 </div>
 

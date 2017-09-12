@@ -148,7 +148,7 @@
 								}
 							}
 							xhr.open("get",
-									"http://localhost:8080/FleaMarket/passwordModify?oldPwd="
+									"/FleaMarket/passwordModify?oldPwd="
 											+ oldPwd + "&newPwd=" + newPwd,
 									true);
 							xhr.send(null);

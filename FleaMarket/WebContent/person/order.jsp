@@ -379,7 +379,7 @@
 		document.getElementById(messageId).remove();
 		document.getElementById(contentId).remove();
 		var xhr = new XMLHttpRequest();
-		xhr.open("get", "http://localhost:8080/FleaMarket/hideorder?orderId="
+		xhr.open("get", "/FleaMarket/hideorder?orderId="
 				+ orderId, false);
 		xhr.send(null);
 		setTimeout("window.location.reload()", 900);

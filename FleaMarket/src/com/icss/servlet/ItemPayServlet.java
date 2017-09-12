@@ -35,7 +35,7 @@ public class ItemPayServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		int itemId=Integer.parseInt(request.getParameter("itemId"));
 		synchronized (this) {
-			if(goodsDao.getRemain(itemDao.getGoodsId(itemId))>itemDao.getAmount(itemId)){
+			if(goodsDao.getRemain(itemDao.getGoodsId(itemId))>=itemDao.getAmount(itemId)){
 				itemDao.payItem(itemId);
 				goodsDao.remainDecrease(itemDao.getGoodsId(itemId), itemDao.getAmount(itemId));
 			}else

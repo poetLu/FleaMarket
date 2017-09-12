@@ -175,7 +175,7 @@ pageEncoding="UTF-8"%>
 		var itemId=deleteId.substring(6,deleteId.length);
 		document.getElementById(itemId).remove();
 		var xhr=new XMLHttpRequest();
-		xhr.open("get","http://localhost:8080/FleaMarket/recordDelete?itemId="+itemId,true);
+		xhr.open("get","/FleaMarket/recordDelete?itemId="+itemId,true);
 		xhr.send(null);
 	}
 </script>
