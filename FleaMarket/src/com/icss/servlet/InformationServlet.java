@@ -37,7 +37,6 @@ public class InformationServlet extends HttpServlet {
 		java.util.Date date=new java.util.Date();
 		Date loginDate=new Date(date.getTime());
 		Date birth=Date.valueOf(rawBirthday);
-		System.out.println(id);
 		try {
 //			System.out.println(id+"\n"+account+"\n"+password+"\n"+loginDate+"\n"+name+"\n"+sex+"\n"+birth+"\n"+telephone+"\n"+email);
 			userDao.addUser(id, account, password, loginDate, name, sex, birth, telephone, email, 400);
