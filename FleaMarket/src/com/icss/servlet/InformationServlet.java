@@ -40,7 +40,7 @@ public class InformationServlet extends HttpServlet {
 		System.out.println(id);
 		try {
 //			System.out.println(id+"\n"+account+"\n"+password+"\n"+loginDate+"\n"+name+"\n"+sex+"\n"+birth+"\n"+telephone+"\n"+email);
-			userDao.addUser(id, account, password, loginDate, name, sex, birth, telephone, email, 100);
+			userDao.addUser(id, account, password, loginDate, name, sex, birth, telephone, email, 400);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

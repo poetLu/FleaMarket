@@ -123,12 +123,18 @@ public class UserDao {
 	}
 
 	// 根据ID得到积分
-	public int getPoints(String id) throws SQLException {
+	public int getPoints(String id){
 		connectDB();
 		String sql = "select points from user where user_id='" + id + "'";
-		ResultSet resultSet = getStatement().executeQuery(sql);
-		if (resultSet.next())
-			return resultSet.getInt(1);
+		ResultSet resultSet;
+		try {
+			resultSet = getStatement().executeQuery(sql);
+			if (resultSet.next())
+				return resultSet.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		disconnectDB();
 		return 0;
 

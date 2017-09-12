@@ -290,6 +290,12 @@ GoodsAbstractDao goodsAbstractDao=new GoodsAbstractDao();
 								}
 							}
 						}
+						var price=parseInt(document.getElementById("J_Total").innerHTML);
+						var points=<%=userDao.getPoints(userId) %>;
+						if(price>points){
+							document.getElementById("totalResults").innerHTML="余额不足";
+							document.getElementById("J_Go").onclick="";
+						}
 					}
 					function deleteItem(deleteid){
 						var itemId=deleteid.substring(6,deleteid.length);
